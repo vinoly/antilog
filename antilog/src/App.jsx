@@ -1182,7 +1182,6 @@ function HomeView({ topics, onSelect, onNewTopic, onInvite, user, isAdmin, onDel
           <p style={{ ...sans, fontSize: 15, color: C.textSub, marginTop: 4 }}>See where the world stands. Add your voice.</p>
         </div>
         <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-          <button onClick={onInvite} style={{ ...sans, fontSize: 14, background: "#f0ebe3", color: C.textMid, padding: "9px 14px", borderRadius: 10, cursor: "pointer", border: "none" }}>Invite ↗</button>
           <button onClick={() => user ? setShowForm(true) : onSignIn()} style={{ ...sans, fontSize: 14, background: C.text, color: "#fff", padding: "9px 18px", borderRadius: 10, cursor: "pointer", border: "none" }}>{user ? "+ New Truth" : "Sign in to post"}</button>
         </div>
       </div>
