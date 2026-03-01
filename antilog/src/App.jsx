@@ -675,9 +675,11 @@ function ArgCard({ arg, side, rebuttals, cardRef, onFork, onShare, onOpenProfile
   const accent = side === "pro" ? C.pro : C.con;
   const opposingAccent = side === "pro" ? C.con : C.pro;
 
-  const submitReply = () => {
+const submitReply = () => {
     if (!replyText.trim()) return;
-    setReplies(r => [...r, { id: Date.now(), author: SESSION_USER.name, votes: 0, text: replyText, source: replySource }]);
+    const newReply = { id: Date.now(), author: SESSION_USER.name, votes: 0, text: replyText, source: replySource };
+    setReplies(r => [...r, newReply]);
+    onArgUpdate(arg.id, null, newReply, side, arg.id);
     setReplyText(""); setReplySource(""); setShowReplyForm(false);
   };
 
@@ -956,9 +958,19 @@ const addArg = (side, arg) => {
     onRep(SESSION_USER.name, 15);
   };
 
-  const addRebuttal = (argId, originalSide, text, source) => {
+const addRebuttal = async (argId, originalSide, text, source) => {
     const rebuttalSide = originalSide === "pro" ? "con" : "pro";
-    setRebuttals(prev => [...prev, { id: Date.now(), argId, rebuttalSide, author: SESSION_USER.name, votes: 0, text, source }]);
+    const newRebuttal = { id: Date.now(), argId, rebuttalSide, author: SESSION_USER.name, votes: 0, text, source };
+    setRebuttals(prev => [...prev, newRebuttal]);
+    try {
+      const c = await sbPromise;
+      if (c) await c.from("rebuttals").insert({
+        topic_id: topic.id, arg_id: argId, rebuttal_side: rebuttalSide,
+        author_name: SESSION_USER.name, text, source: source ?? null, votes: 0,
+      });
+    } catch (err) {
+      console.warn("Failed to save rebuttal:", err.message);
+    }
     onRep(SESSION_USER.name, 15);
   };
 
