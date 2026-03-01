@@ -1318,15 +1318,14 @@ export default function App() {
   // ── Load topics from Supabase ─────────────────────────────────────────────
   useEffect(() => {
     async function loadTopics() {
-      setLoading(true);
       try {
         const c = await sbPromise;
-        if (!c) throw new Error("Supabase unavailable");
+        if (!c) return; // no Supabase — keep seed data
         const { data, error } = await c
           .from("topics")
           .select("*, arguments(*, replies:arguments!parent_id(*)), rebuttals(*)")
           .order("created_at", { ascending: false });
-        if (error) throw error;
+        if (error) { console.warn('Supabase query error:', error.message); return; }
 
         if (data && data.length > 0) {
           // Shape Supabase rows into the app's topic shape
@@ -1363,11 +1362,10 @@ export default function App() {
           }));
           setTopics(shaped);
         }
+        // On error, bail — NEVER fall back to seeds if real data exists
       } catch (err) {
-        console.warn("Supabase load failed, using seed data:", err.message);
-        // Falls back to seedTopics already in state
+        console.warn("loadTopics failed:", err.message);
       }
-      setLoading(false);
     }
     loadTopics();
   }, []);
