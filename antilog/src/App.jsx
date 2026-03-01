@@ -1,13 +1,25 @@
-import { createClient } from '@supabase/supabase-js';
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { createClient } from "@supabase/supabase-js";
 
-
-// ── Supabase client ───────────────────────────────────────────────────────
-// Replace these with your project values from supabase.com → Project Settings → API
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const sbPromise = Promise.resolve(createClient(SUPABASE_URL, SUPABASE_ANON_KEY));
+const sb = {
+  auth: async () => (await sbPromise).auth,
+};
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Convenience wrapper — all calls are no-ops if Supabase isn't available
+const sb = {
+  async client() { return sbPromise; },
+  async from(table) {
+    const c = await sbPromise;
+    return c ? c.from(table) : null;
+  },
+  async auth() {
+    const c = await sbPromise;
+    return c ? c.auth : null;
+  },
+};
 
 
 const fontLink = document.createElement("link");
@@ -312,7 +324,8 @@ function InviteModal({ onClose, user }) {
 
   const signInWithGoogle = async () => {
     setSigningIn(true);
-    await supabase.auth.signInWithOAuth({
+    const auth = await sb.auth();
+    if (auth) await auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo: window.location.origin },
     });
@@ -320,7 +333,8 @@ function InviteModal({ onClose, user }) {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    const auth = await sb.auth();
+    if (auth) await auth.signOut();
     onClose();
   };
 
@@ -622,7 +636,7 @@ function RebuttalPreview({ rebuttal, onScrollToCard, onOpenProfile, onRep }) {
 }
 
 // ── Rebuttal full card ────────────────────────────────────────────────────
-function RebuttalCard({ rebuttal, originalArg, onScrollToOriginal, onShare, onFork, onOpenProfile, onRep, cardRef }) {
+function RebuttalCard({ rebuttal, originalArg, onScrollToOriginal, onShare, onFork, onOpenProfile, onRep, cardRef, isAdmin, onDelete }) {
   const accentColor = rebuttal.rebuttalSide === "pro" ? C.pro : C.con;
   const originalAccent = rebuttal.rebuttalSide === "pro" ? C.con : C.pro;
   const originalLabel = rebuttal.rebuttalSide === "pro" ? "Against" : "For";
@@ -667,7 +681,7 @@ function ReplyCard({ reply, onFork, onShare, onOpenProfile, onRep }) {
 }
 
 // ── Arg card ──────────────────────────────────────────────────────────────
-function ArgCard({ arg, side, rebuttals, cardRef, onFork, onShare, onOpenProfile, onRep, onAddRebuttal, onScrollToRebuttalCard }) {
+function ArgCard({ arg, side, rebuttals, cardRef, onFork, onShare, onOpenProfile, onRep, onAddRebuttal, onScrollToRebuttalCard, user, isAdmin, onSignIn, onDelete }) {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [showRebuttalForm, setShowRebuttalForm] = useState(false);
   const [replyText, setReplyText] = useState("");
@@ -698,9 +712,9 @@ function ArgCard({ arg, side, rebuttals, cardRef, onFork, onShare, onOpenProfile
 
       <div style={{ display: "flex", gap: 10, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
         <VoteBtn votes={arg.votes} onVote={d => onRep(arg.author, d * 10)} />
-        <button onClick={() => { setShowReplyForm(v => !v); setShowRebuttalForm(false); }}
+        <button onClick={() => { if (!user) { onSignIn(); return; } setShowReplyForm(v => !v); setShowRebuttalForm(false); }}
           style={{ ...sans, fontSize: 11, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Reply</button>
-        <button onClick={() => { setShowRebuttalForm(v => !v); setShowReplyForm(false); }}
+        <button onClick={() => { if (!user) { onSignIn(); return; } setShowRebuttalForm(v => !v); setShowReplyForm(false); }}
           style={{ ...sans, fontSize: 11, color: opposingAccent, background: "none", border: `1px solid ${opposingAccent}`, borderRadius: 6, padding: "2px 9px", cursor: "pointer", opacity: 0.9 }}>⇄ Rebut</button>
         <button onClick={() => onFork(arg)} style={{ ...sans, fontSize: 11, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>⑃ fork</button>
         <button onClick={() => onShare(arg)} style={{ ...sans, fontSize: 11, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>↗ share</button>
@@ -708,6 +722,14 @@ function ArgCard({ arg, side, rebuttals, cardRef, onFork, onShare, onOpenProfile
 
       {replies.map(r => <ReplyCard key={r.id} reply={r} onFork={onFork} onShare={onShare} onOpenProfile={onOpenProfile} onRep={onRep} />)}
 
+      {isAdmin && (
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 4 }}>
+          <button onClick={() => { if (window.confirm("Delete this argument and all its replies?")) onDelete("argument", arg.id); }}
+            style={{ ...sans, fontSize: 10, color: "#c0504d", background: "none", border: "1px solid #e8c8c8", borderRadius: 6, padding: "2px 10px", cursor: "pointer" }}>
+            🗑 Delete
+          </button>
+        </div>
+      )}
       {showReplyForm && (
         <div style={{ marginTop: 12, marginLeft: 32 }}>
           <textarea value={replyText} onChange={e => setReplyText(e.target.value)} placeholder="Add your perspective…" rows={3}
@@ -733,7 +755,7 @@ function ArgCard({ arg, side, rebuttals, cardRef, onFork, onShare, onOpenProfile
 }
 
 // ── Add arg panel ─────────────────────────────────────────────────────────
-function AddArgPanel({ side, onAdd }) {
+function AddArgPanel({ side, onAdd, user, onSignIn }) {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const [source, setSource] = useState("");
@@ -832,7 +854,8 @@ function NewTopicModal({ onAdd, onClose }) {
 // ── Mobile tabbed view ────────────────────────────────────────────────────
 function MobileTabs({ args, rebuttals, argRefs, rebuttalCardRefs, pro, con,
   onFork, onShare, onOpenProfile, onRep, onAddRebuttal, onScrollToRebuttalCard,
-  onScrollToArg, findArg, proRebuttalCards, conRebuttalCards, onAddArg }) {
+  onScrollToArg, findArg, proRebuttalCards, conRebuttalCards, onAddArg,
+  user, isAdmin, onSignIn, onDelete }) {
   const [tab, setTab] = useState("pro");
   const total = pro + con || 1;
   const proW = Math.round((pro / total) * 100);
@@ -874,16 +897,18 @@ function MobileTabs({ args, rebuttals, argRefs, rebuttalCardRefs, pro, con,
               onFork={onFork} onShare={onShare}
               onOpenProfile={onOpenProfile} onRep={onRep}
               onAddRebuttal={onAddRebuttal}
-              onScrollToRebuttalCard={onScrollToRebuttalCard} />
+              onScrollToRebuttalCard={onScrollToRebuttalCard}
+              user={user} isAdmin={isAdmin} onSignIn={onSignIn} onDelete={onDelete} />
           ))}
           {proRebuttalCards.map(r => (
             <RebuttalCard key={r.id} rebuttal={r} originalArg={findArg(r.argId)}
               cardRef={el => { rebuttalCardRefs.current[r.id] = el; }}
               onScrollToOriginal={() => onScrollToArg(r.argId)}
               onShare={onShare} onFork={onFork}
-              onOpenProfile={onOpenProfile} onRep={onRep} />
+              onOpenProfile={onOpenProfile} onRep={onRep}
+              isAdmin={isAdmin} onDelete={onDelete} />
           ))}
-          <AddArgPanel side="pro" onAdd={arg => onAddArg("pro", arg)} />
+          <AddArgPanel side="pro" onAdd={arg => onAddArg("pro", arg)} user={user} onSignIn={onSignIn} />
           <button onClick={() => setTab("con")}
             style={{ ...sans, fontSize: 12, color: C.con, background: "none", border: `1px solid ${C.con}`, borderRadius: 10, padding: "10px", cursor: "pointer", marginTop: 8, opacity: 0.85 }}>
             See the case Against →
@@ -897,16 +922,18 @@ function MobileTabs({ args, rebuttals, argRefs, rebuttalCardRefs, pro, con,
               onFork={onFork} onShare={onShare}
               onOpenProfile={onOpenProfile} onRep={onRep}
               onAddRebuttal={onAddRebuttal}
-              onScrollToRebuttalCard={onScrollToRebuttalCard} />
+              onScrollToRebuttalCard={onScrollToRebuttalCard}
+              user={user} isAdmin={isAdmin} onSignIn={onSignIn} onDelete={onDelete} />
           ))}
           {conRebuttalCards.map(r => (
             <RebuttalCard key={r.id} rebuttal={r} originalArg={findArg(r.argId)}
               cardRef={el => { rebuttalCardRefs.current[r.id] = el; }}
               onScrollToOriginal={() => onScrollToArg(r.argId)}
               onShare={onShare} onFork={onFork}
-              onOpenProfile={onOpenProfile} onRep={onRep} />
+              onOpenProfile={onOpenProfile} onRep={onRep}
+              isAdmin={isAdmin} onDelete={onDelete} />
           ))}
-          <AddArgPanel side="con" onAdd={arg => onAddArg("con", arg)} />
+          <AddArgPanel side="con" onAdd={arg => onAddArg("con", arg)} user={user} onSignIn={onSignIn} />
           <button onClick={() => setTab("pro")}
             style={{ ...sans, fontSize: 12, color: C.pro, background: "none", border: `1px solid ${C.pro}`, borderRadius: 10, padding: "10px", cursor: "pointer", marginTop: 8, opacity: 0.85 }}>
             ← See the case For
@@ -917,7 +944,7 @@ function MobileTabs({ args, rebuttals, argRefs, rebuttalCardRefs, pro, con,
   );
 }
 
-function DebateView({ topic, onBack, onArgUpdate, onForkCreated, onOpenProfile, onRep }) {
+function DebateView({ topic, onBack, onArgUpdate, onForkCreated, onOpenProfile, onRep, user, isAdmin, onDelete, onSignIn }) {
   const [args, setArgs] = useState(topic.args);
   const [rebuttals, setRebuttals] = useState(topic.rebuttals || []);
   const [forkTarget, setForkTarget] = useState(null);
@@ -1024,6 +1051,7 @@ function DebateView({ topic, onBack, onArgUpdate, onForkCreated, onOpenProfile, 
           proRebuttalCards={proRebuttalCards}
           conRebuttalCards={conRebuttalCards}
           onAddArg={addArg}
+          user={user} isAdmin={isAdmin} onSignIn={onSignIn} onDelete={onDelete}
         />
       ) : (
         // ── Desktop: side-by-side columns ────────────────────────────────
@@ -1037,17 +1065,19 @@ function DebateView({ topic, onBack, onArgUpdate, onForkCreated, onOpenProfile, 
                   onFork={setForkTarget} onShare={setShareTarget}
                   onOpenProfile={onOpenProfile} onRep={onRep}
                   onAddRebuttal={addRebuttal}
-                  onScrollToRebuttalCard={scrollToRebuttalCard} />
+                  onScrollToRebuttalCard={scrollToRebuttalCard}
+                  user={user} isAdmin={isAdmin} onSignIn={onSignIn} onDelete={onDelete} />
               ))}
               {proRebuttalCards.map(r => (
                 <RebuttalCard key={r.id} rebuttal={r} originalArg={findArg(r.argId)}
                   cardRef={el => { rebuttalCardRefs.current[r.id] = el; }}
                   onScrollToOriginal={() => scrollToArg(r.argId)}
                   onShare={setShareTarget} onFork={setForkTarget}
-                  onOpenProfile={onOpenProfile} onRep={onRep} />
+                  onOpenProfile={onOpenProfile} onRep={onRep}
+                  isAdmin={isAdmin} onDelete={onDelete} />
               ))}
             </div>
-            <AddArgPanel side="pro" onAdd={arg => addArg("pro", arg)} />
+            <AddArgPanel side="pro" onAdd={arg => addArg("pro", arg)} user={user} onSignIn={onSignIn} />
           </div>
           <div>
             <p style={{ ...sans, fontSize: 10, color: C.con, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 12 }}>Against</p>
@@ -1058,17 +1088,19 @@ function DebateView({ topic, onBack, onArgUpdate, onForkCreated, onOpenProfile, 
                   onFork={setForkTarget} onShare={setShareTarget}
                   onOpenProfile={onOpenProfile} onRep={onRep}
                   onAddRebuttal={addRebuttal}
-                  onScrollToRebuttalCard={scrollToRebuttalCard} />
+                  onScrollToRebuttalCard={scrollToRebuttalCard}
+                  user={user} isAdmin={isAdmin} onSignIn={onSignIn} onDelete={onDelete} />
               ))}
               {conRebuttalCards.map(r => (
                 <RebuttalCard key={r.id} rebuttal={r} originalArg={findArg(r.argId)}
                   cardRef={el => { rebuttalCardRefs.current[r.id] = el; }}
                   onScrollToOriginal={() => scrollToArg(r.argId)}
                   onShare={setShareTarget} onFork={setForkTarget}
-                  onOpenProfile={onOpenProfile} onRep={onRep} />
+                  onOpenProfile={onOpenProfile} onRep={onRep}
+                  isAdmin={isAdmin} onDelete={onDelete} />
               ))}
             </div>
-            <AddArgPanel side="con" onAdd={arg => addArg("con", arg)} />
+            <AddArgPanel side="con" onAdd={arg => addArg("con", arg)} user={user} onSignIn={onSignIn} />
           </div>
         </div>
       )}
@@ -1080,36 +1112,45 @@ function DebateView({ topic, onBack, onArgUpdate, onForkCreated, onOpenProfile, 
 }
 
 // ── Topic card ────────────────────────────────────────────────────────────
-function TopicCard({ topic, onClick }) {
+function TopicCard({ topic, onClick, isAdmin, onDelete }) {
   const { pro, con } = calcScore(topic.args);
   const totalArgs = topic.args.pro.length + topic.args.con.length;
   const rebuttalCount = (topic.rebuttals || []).length;
   return (
-    <button onClick={onClick} style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: 16, padding: "16px 18px", textAlign: "left", cursor: "pointer", width: "100%", transition: "box-shadow 0.2s", display: "block" }}
-      onMouseEnter={e => e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.07)"}
-      onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}>
-      <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-        <RadialBalance pro={pro} con={con} size={60} />
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", gap: 6, alignItems: "center", marginBottom: 4 }}>
-            <span style={{ ...sans, fontSize: 10, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>{topic.category}</span>
-            {topic.hot && <span style={{ ...sans, fontSize: 9, background: "#fdf3e7", color: C.pro, padding: "1px 7px", borderRadius: 10 }}>trending</span>}
-            {topic.forkedFrom && <span style={{ ...sans, fontSize: 9, background: "#fdf3e7", color: C.con, padding: "1px 7px", borderRadius: 10 }}>⑃ fork</span>}
+    <div style={{ position: "relative" }}>
+      <button onClick={onClick} style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: 16, padding: "16px 18px", textAlign: "left", cursor: "pointer", width: "100%", transition: "box-shadow 0.2s", display: "block" }}
+        onMouseEnter={e => e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.07)"}
+        onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}>
+        <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+          <RadialBalance pro={pro} con={con} size={60} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: "flex", gap: 6, alignItems: "center", marginBottom: 4 }}>
+              <span style={{ ...sans, fontSize: 10, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>{topic.category}</span>
+              {topic.hot && <span style={{ ...sans, fontSize: 9, background: "#fdf3e7", color: C.pro, padding: "1px 7px", borderRadius: 10 }}>trending</span>}
+              {topic.forkedFrom && <span style={{ ...sans, fontSize: 9, background: "#fdf3e7", color: C.con, padding: "1px 7px", borderRadius: 10 }}>⑃ fork</span>}
+            </div>
+            <p style={{ ...serif, fontSize: 14.5, color: C.text, lineHeight: 1.5, marginBottom: 8 }}>{topic.title}</p>
+            <PullBar pro={pro} con={con} />
+            <p style={{ ...sans, fontSize: 10, color: C.textMuted, marginTop: 6 }}>
+              {totalArgs} argument{totalArgs !== 1 ? "s" : ""}
+              {rebuttalCount > 0 && ` · ⇄ ${rebuttalCount} rebuttal${rebuttalCount !== 1 ? "s" : ""}`}
+            </p>
           </div>
-          <p style={{ ...serif, fontSize: 14.5, color: C.text, lineHeight: 1.5, marginBottom: 8 }}>{topic.title}</p>
-          <PullBar pro={pro} con={con} />
-          <p style={{ ...sans, fontSize: 10, color: C.textMuted, marginTop: 6 }}>
-            {totalArgs} argument{totalArgs !== 1 ? "s" : ""}
-            {rebuttalCount > 0 && ` · ⇄ ${rebuttalCount} rebuttal${rebuttalCount !== 1 ? "s" : ""}`}
-          </p>
         </div>
-      </div>
-    </button>
+      </button>
+      {isAdmin && (
+        <button
+          onClick={e => { e.stopPropagation(); if (window.confirm("Delete this truth and all its arguments?")) onDelete("topic", topic.id); }}
+          style={{ position: "absolute", top: 10, right: 10, ...sans, fontSize: 10, color: "#c0504d", background: "#fff", border: "1px solid #e8c8c8", borderRadius: 6, padding: "3px 10px", cursor: "pointer", zIndex: 2 }}>
+          🗑 Delete
+        </button>
+      )}
+    </div>
   );
 }
 
 // ── Home view ─────────────────────────────────────────────────────────────
-function HomeView({ topics, onSelect, onNewTopic, onInvite }) {
+function HomeView({ topics, onSelect, onNewTopic, onInvite, user, isAdmin, onDelete, onSignIn }) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [sort, setSort] = useState("trending");
@@ -1140,7 +1181,7 @@ function HomeView({ topics, onSelect, onNewTopic, onInvite }) {
         </div>
         <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
           <button onClick={onInvite} style={{ ...sans, fontSize: 12, background: "#f0ebe3", color: C.textMid, padding: "9px 14px", borderRadius: 10, cursor: "pointer", border: "none" }}>Invite ↗</button>
-          <button onClick={() => setShowForm(true)} style={{ ...sans, fontSize: 12, background: C.text, color: "#fff", padding: "9px 18px", borderRadius: 10, cursor: "pointer", border: "none" }}>+ New Truth</button>
+          <button onClick={() => user ? setShowForm(true) : onSignIn()} style={{ ...sans, fontSize: 12, background: C.text, color: "#fff", padding: "9px 18px", borderRadius: 10, cursor: "pointer", border: "none" }}>{user ? "+ New Truth" : "Sign in to post"}</button>
         </div>
       </div>
 
@@ -1167,7 +1208,7 @@ function HomeView({ topics, onSelect, onNewTopic, onInvite }) {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
         {main.length === 0 && <p style={{ ...sans, fontSize: 13, color: C.textMuted, textAlign: "center", padding: "24px 0" }}>No debates match your filters.</p>}
-        {main.map(t => <TopicCard key={t.id} topic={t} onClick={() => onSelect(t)} />)}
+        {main.map(t => <TopicCard key={t.id} topic={t} onClick={() => onSelect(t)} isAdmin={isAdmin} onDelete={onDelete} />)}
       </div>
 
       {forks.length > 0 && (
@@ -1177,7 +1218,7 @@ function HomeView({ topics, onSelect, onNewTopic, onInvite }) {
             <div style={{ flex: 1, height: 1, background: C.border }} />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {forks.map(t => <TopicCard key={t.id} topic={t} onClick={() => onSelect(t)} />)}
+            {forks.map(t => <TopicCard key={t.id} topic={t} onClick={() => onSelect(t)} isAdmin={isAdmin} onDelete={onDelete} />)}
           </div>
         </>
       )}
@@ -1275,18 +1316,16 @@ export default function App() {
   const [profileTarget, setProfileTarget] = useState(null);
   const [showInvite, setShowInvite] = useState(false);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // ── Auth ─────────────────────────────────────────────────────────────────
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+    sb.auth().then(auth => {
+      if (!auth) return;
+      auth.getSession().then(({ data: { session } }) => setUser(session?.user ?? null));
+      const { data: { subscription } } = auth.onAuthStateChange((_e, session) => setUser(session?.user ?? null));
+      return () => subscription.unsubscribe();
     });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-    return () => subscription.unsubscribe();
   }, []);
 
   // ── Load topics from Supabase ─────────────────────────────────────────────
@@ -1294,7 +1333,9 @@ export default function App() {
     async function loadTopics() {
       setLoading(true);
       try {
-        const { data, error } = await supabase
+        const c = await sbPromise;
+        if (!c) throw new Error("Supabase unavailable");
+        const { data, error } = await c
           .from("topics")
           .select("*, arguments(*, replies:arguments!parent_id(*)), rebuttals(*)")
           .order("created_at", { ascending: false });
@@ -1349,7 +1390,9 @@ export default function App() {
     // Optimistic update
     setTopics(ts => [t, ...ts]);
     try {
-      const { data, error } = await supabase.from("topics").insert({
+      const c = await sbPromise;
+      if (!c) throw new Error("Supabase unavailable");
+      const { data, error } = await c.from("topics").insert({
         title: t.title, summary: t.summary, category: t.category,
         hot: false, created_by: user?.id ?? null,
         forked_from: t.forkedFrom ?? null, forked_author: t.forkedAuthor ?? null,
@@ -1367,7 +1410,8 @@ export default function App() {
     setTopics(ts => ts.map(t => t.id === topicId ? { ...t, args: newArgs } : t));
     if (!newArg) return;
     try {
-      await supabase.from("arguments").insert({
+      const c = await sbPromise;
+      if (c) await c.from("arguments").insert({
         topic_id: topicId, side, parent_id: parentId ?? null,
         author_name: newArg.author, text: newArg.text, source: newArg.source ?? null,
         votes: 0, created_by: user?.id ?? null,
@@ -1388,7 +1432,8 @@ export default function App() {
     // Votes persist to DB; rep is derived
     if (targetId && user) {
       try {
-        await supabase.from("votes").upsert({
+        const c = await sbPromise;
+        if (c) await c.from("votes").upsert({
           user_id: user.id, target_id: String(targetId),
           target_type: targetType ?? "argument", value: delta > 0 ? 1 : -1,
         }, { onConflict: "user_id,target_id" });
@@ -1406,6 +1451,25 @@ export default function App() {
     ? (USERS[user.user_metadata?.full_name]?.rep ?? 0)
     : SESSION_USER.rep;
 
+  // Admin emails — add yours here
+  const ADMIN_EMAILS = ["vinoly@gmail.com"]; // ← replace with your Google account email
+  const isAdmin = user && ADMIN_EMAILS.includes(user.email);
+
+  const handleDelete = useCallback(async (type, id) => {
+    // Optimistic removal from local state
+    if (type === "topic") {
+      setTopics(ts => ts.filter(t => t.id !== id));
+    }
+    // Supabase delete — cascade handles child rows
+    try {
+      const table = type === "topic" ? "topics" : type === "argument" ? "arguments" : "rebuttals";
+      const c = await sbPromise;
+      if (c) await c.from(table).delete().eq("id", id);
+    } catch (err) {
+      console.warn("Delete failed:", err.message);
+    }
+  }, []);
+
   if (loading) return (
     <div style={{ minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center" }}>
       <p style={{ ...serif, fontSize: 18, color: C.textMuted }}>Loading…</p>
@@ -1417,8 +1481,8 @@ export default function App() {
       <Nav sessionRep={sessionRep} onInvite={() => setShowInvite(true)} onHome={() => setActive(null)} user={user} />
 
       {active
-        ? <DebateView topic={active} onBack={() => setActive(null)} onArgUpdate={handleArgUpdate} onForkCreated={handleFork} onOpenProfile={handleOpenProfile} onRep={handleRep} />
-        : <HomeView topics={topics} onSelect={t => setActive(t)} onNewTopic={addTopic} onInvite={() => setShowInvite(true)} />
+        ? <DebateView topic={active} onBack={() => setActive(null)} onArgUpdate={handleArgUpdate} onForkCreated={handleFork} onOpenProfile={handleOpenProfile} onRep={handleRep} user={user} isAdmin={isAdmin} onDelete={handleDelete} onSignIn={() => setShowInvite(true)} />
+        : <HomeView topics={topics} onSelect={t => setActive(t)} onNewTopic={addTopic} onInvite={() => setShowInvite(true)} user={user} isAdmin={isAdmin} onDelete={handleDelete} onSignIn={() => setShowInvite(true)} />
       }
 
       {profileTarget && <ProfileModal author={profileTarget.author} userData={profileTarget.userData} onClose={() => setProfileTarget(null)} />}
