@@ -669,7 +669,7 @@ function RebuttalCard({ rebuttal, originalArg, onScrollToOriginal, onShare, onFo
       <RepBadge author={rebuttal.author} onOpenProfile={onOpenProfile} />
       <p style={{ ...serif, fontSize: 16, color: C.text, lineHeight: 1.7, margin: "8px 0 4px" }}>{rebuttal.text}</p>
       {rebuttal.source && <p style={{ ...sans, fontSize: 13, color: C.textMuted, fontStyle: "italic", marginBottom: 6 }}>— {rebuttal.source}</p>}
-      <FactCheckBadge text={rebuttal.text} source={rebuttal.source} />
+      <FactCheckBadge text={rebuttal.text} source={rebuttal.source} argId={rebuttal.id} onResult={onFactCheck} />
       <div style={{ display: "flex", gap: 12, marginTop: 8, alignItems: "center" }}>
         <VoteBtn votes={rebuttal.votes} onVote={d => onRep(rebuttal.author, d * 10)} />
         <button onClick={() => onFork(rebuttal)} style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>⑃ fork</button>
@@ -686,7 +686,7 @@ function ReplyCard({ reply, onFork, onShare, onOpenProfile, onRep }) {
       <RepBadge author={reply.author} onOpenProfile={onOpenProfile} />
       <p style={{ ...serif, fontSize: 15, color: C.textMid, lineHeight: 1.65, margin: "6px 0 3px" }}>{reply.text}</p>
       {reply.source && <p style={{ ...sans, fontSize: 13, color: C.textMuted, fontStyle: "italic" }}>— {reply.source}</p>}
-      <FactCheckBadge text={reply.text} source={reply.source} />
+      <FactCheckBadge text={reply.text} source={reply.source} argId={reply.id} onResult={onFactCheck} />
       <div style={{ display: "flex", gap: 12, marginTop: 6, alignItems: "center" }}>
         <VoteBtn votes={reply.votes} onVote={d => onRep(reply.author, d * 5)} />
         <button onClick={() => onFork(reply)} style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>⑃ fork</button>
@@ -726,7 +726,7 @@ const submitReply = () => {
       <RepBadge author={arg.author} onOpenProfile={onOpenProfile} />
       <p style={{ ...serif, fontSize: 16, color: C.text, lineHeight: 1.7, margin: "8px 0 4px" }}>{arg.text}</p>
       {arg.source && <p style={{ ...sans, fontSize: 13, color: C.textMuted, fontStyle: "italic", marginBottom: 6 }}>— {arg.source}</p>}
-      <FactCheckBadge text={arg.text} source={arg.source} />
+      <FactCheckBadge text={arg.text} source={arg.source} argId={arg.id} onResult={onFactCheck} />
 
       <div style={{ display: "flex", gap: 10, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
         <VoteBtn votes={arg.votes} onVote={d => onRep(arg.author, d * 10, arg.id, "argument")} />
