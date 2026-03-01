@@ -265,12 +265,11 @@ function calcScore(args) {
 }
 
 async function runFactCheck(text, source) {
-  const prompt = `You are a neutral fact-checker for a debate platform called antilog. Briefly assess this argument in 2 sentences max. Flag if the claim seems unsupported, misleading, or well-evidenced. Be concise and neutral. Do NOT moralize.\n\nArgument: "${text}"\n${source ? `Cited source: ${source}` : "No source cited."}\n\nRespond with a JSON object: { "verdict": "supported" | "disputed" | "unsourced", "note": "your brief note" }`;
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
+    const res = await fetch("/api/factcheck", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, messages: [{ role: "user", content: prompt }] }),
+      body: JSON.stringify({ text, source }),
     });
     const data = await res.json();
     const raw = data.content?.find(b => b.type === "text")?.text || "{}";
