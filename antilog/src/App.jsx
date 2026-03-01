@@ -950,9 +950,9 @@ function DebateView({ topic, onBack, onArgUpdate, onForkCreated, onOpenProfile, 
   const argRefs = useRef({});
   const rebuttalCardRefs = useRef({});
 
-  const addArg = (side, arg) => {
+const addArg = (side, arg) => {
     const next = { ...args, [side]: [...args[side], arg] };
-    setArgs(next); onArgUpdate(topic.id, next);
+    setArgs(next); onArgUpdate(topic.id, next, arg, side);
     onRep(SESSION_USER.name, 15);
   };
 
