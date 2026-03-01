@@ -1359,7 +1359,10 @@ export default function App() {
                 })),
             },
           }));
-          setTopics(shaped);
+          // Merge: use shaped DB topics, but keep seed topics that aren't in DB yet
+const dbTitles = shaped.map(t => t.title);
+const missingSeeds = seedTopics.filter(s => !dbTitles.includes(s.title));
+setTopics([...shaped, ...missingSeeds]);
         }
         // On error, bail — NEVER fall back to seeds if real data exists
       } catch (err) {
