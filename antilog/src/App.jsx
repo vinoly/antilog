@@ -1418,15 +1418,19 @@ setTopics([...shaped, ...missingSeeds]);
   }, [addTopic]);
 
   // ── Vote ──────────────────────────────────────────────────────────────────
-  const handleRep = useCallback(async (author, delta, targetId, targetType) => {
-    // Votes persist to DB; rep is derived
+const handleRep = useCallback(async (author, delta, targetId, targetType) => {
     if (targetId && user) {
       try {
         const c = await sbPromise;
-        if (c) await c.from("votes").upsert({
-          user_id: user.id, target_id: String(targetId),
-          target_type: targetType ?? "argument", value: delta > 0 ? 1 : -1,
-        }, { onConflict: "user_id,target_id" });
+        if (c) {
+          await c.from("votes").upsert({
+            user_id: user.id, target_id: String(targetId),
+            target_type: targetType ?? "argument", value: delta > 0 ? 1 : -1,
+          }, { onConflict: "user_id,target_id" });
+          if (targetType === "argument" || !targetType) {
+            await c.rpc("increment_votes", { row_id: targetId, delta: delta > 0 ? 1 : -1 });
+          }
+        }
       } catch (err) {
         console.warn("Vote save failed:", err.message);
       }
