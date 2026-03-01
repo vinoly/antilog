@@ -8,18 +8,7 @@ const sb = {
   auth: async () => (await sbPromise).auth,
 };
 
-// Convenience wrapper — all calls are no-ops if Supabase isn't available
-const sb = {
-  async client() { return sbPromise; },
-  async from(table) {
-    const c = await sbPromise;
-    return c ? c.from(table) : null;
-  },
-  async auth() {
-    const c = await sbPromise;
-    return c ? c.auth : null;
-  },
-};
+
 
 
 const fontLink = document.createElement("link");
