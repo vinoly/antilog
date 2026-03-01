@@ -680,7 +680,7 @@ function RebuttalCard({ rebuttal, originalArg, onScrollToOriginal, onShare, onFo
 }
 
 // ── Reply card ────────────────────────────────────────────────────────────
-function ReplyCard({ reply, onFork, onShare, onOpenProfile, onRep }) {
+function ReplyCard({ reply, onFork, onShare, onOpenProfile, onRep, onFactCheck }) {
   return (
     <div style={{ marginTop: 10, marginLeft: 32, paddingLeft: 12, borderLeft: `1px solid ${C.border}` }}>
       <RepBadge author={reply.author} onOpenProfile={onOpenProfile} />
