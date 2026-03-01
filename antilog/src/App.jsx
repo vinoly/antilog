@@ -815,7 +815,7 @@ function NewTopicModal({ onAdd, onClose }) {
   const cats = CATEGORIES.filter(c => c !== "All");
   const submit = () => {
     if (!title.trim()) return;
-    onAdd({ id: Date.now(), title, summary, category, hot: false, rebuttals: [], args: { pro: [], con: [] } });
+    onAdd({ id: `temp_${Date.now()}`, title, summary, category, hot: false, rebuttals: [], args: { pro: [], con: [] } });
     onClose();
   };
   return (
@@ -1377,13 +1377,16 @@ export default function App() {
     try {
       const c = await sbPromise;
       if (!c) throw new Error("Supabase unavailable");
+      // Note: never send `id` — Supabase generates it automatically
       const { data, error } = await c.from("topics").insert({
         title: t.title, summary: t.summary, category: t.category,
-        hot: false, created_by: user?.id ?? null,
-        forked_from: t.forkedFrom ?? null, forked_author: t.forkedAuthor ?? null,
+        hot: false,
+        created_by: user?.id ?? null,
+        forked_from: t.forkedFrom ?? null,
+        forked_author: t.forkedAuthor ?? null,
       }).select().single();
-      if (error) throw error;
-      // Replace temp topic with server-assigned id
+      if (error) { console.error("Insert error:", error); throw error; }
+      // Swap temp id for the real database id
       setTopics(ts => ts.map(topic => topic.id === t.id ? { ...topic, id: data.id } : topic));
     } catch (err) {
       console.warn("Failed to save topic:", err.message);
