@@ -9,8 +9,6 @@ const sb = {
 };
 
 
-
-
 const fontLink = document.createElement("link");
 fontLink.rel = "stylesheet";
 fontLink.href = "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap";
@@ -335,54 +333,54 @@ function InviteModal({ onClose, user }) {
           // ── Signed in ───────────────────────────────────────────────────
           <>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, padding: "12px 14px", background: C.card, borderRadius: 12 }}>
-              <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#e8e0d4", display: "flex", alignItems: "center", justifyContent: "center", ...serifMed, fontSize: 16, color: C.textSub }}>
+              <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#e8e0d4", display: "flex", alignItems: "center", justifyContent: "center", ...serifMed, fontSize: 19, color: C.textSub }}>
                 {user.user_metadata?.full_name?.[0] ?? "U"}
               </div>
               <div>
-                <p style={{ ...sansMed, fontSize: 13, color: C.text }}>{user.user_metadata?.full_name ?? "User"}</p>
-                <p style={{ ...sans, fontSize: 11, color: C.textMuted }}>{user.email}</p>
+                <p style={{ ...sansMed, fontSize: 15, color: C.text }}>{user.user_metadata?.full_name ?? "User"}</p>
+                <p style={{ ...sans, fontSize: 13, color: C.textMuted }}>{user.email}</p>
               </div>
             </div>
 
-            <p style={{ ...serifMed, fontSize: 18, color: C.text, marginBottom: 4 }}>Invite someone to debate</p>
-            <p style={{ ...sans, fontSize: 13, color: C.textSub, marginBottom: 20, lineHeight: 1.5 }}>antilog is better when both sides are represented. Invite someone who disagrees with you.</p>
+            <p style={{ ...serifMed, fontSize: 21, color: C.text, marginBottom: 4 }}>Invite someone to debate</p>
+            <p style={{ ...sans, fontSize: 15, color: C.textSub, marginBottom: 20, lineHeight: 1.5 }}>antilog is better when both sides are represented. Invite someone who disagrees with you.</p>
 
-            <p style={{ ...sans, fontSize: 10, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Invite by email</p>
+            <p style={{ ...sans, fontSize: 12, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Invite by email</p>
             <div style={{ display: "flex", gap: 8, marginBottom: 18 }}>
               <input value={email} onChange={e => setEmail(e.target.value)}
                 onKeyDown={e => e.key === "Enter" && handleInvite()}
                 placeholder="their@email.com"
-                style={{ ...sans, fontSize: 13, flex: 1, border: `1px solid ${C.border}`, borderRadius: 9, padding: "9px 12px", outline: "none", boxSizing: "border-box" }} />
+                style={{ ...sans, fontSize: 15, flex: 1, border: `1px solid ${C.border}`, borderRadius: 9, padding: "9px 12px", outline: "none", boxSizing: "border-box" }} />
               <button onClick={handleInvite}
-                style={{ ...sans, fontSize: 12, background: C.text, color: "#fff", padding: "9px 16px", borderRadius: 9, cursor: "pointer", border: "none", flexShrink: 0 }}>
+                style={{ ...sans, fontSize: 14, background: C.text, color: "#fff", padding: "9px 16px", borderRadius: 9, cursor: "pointer", border: "none", flexShrink: 0 }}>
                 {sent ? "Sent ✓" : "Send"}
               </button>
             </div>
 
-            <p style={{ ...sans, fontSize: 10, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Or share your link</p>
+            <p style={{ ...sans, fontSize: 12, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Or share your link</p>
             <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
-              <div style={{ ...sans, fontSize: 12, flex: 1, border: `1px solid ${C.border}`, borderRadius: 9, padding: "9px 12px", color: C.textSub, background: C.card, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+              <div style={{ ...sans, fontSize: 14, flex: 1, border: `1px solid ${C.border}`, borderRadius: 9, padding: "9px 12px", color: C.textSub, background: C.card, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
                 {link}
               </div>
               <button onClick={copyLink}
-                style={{ ...sans, fontSize: 12, background: copied ? "#edf7ed" : "#f0ebe3", color: copied ? "#2e6a2e" : C.textMid, padding: "9px 14px", borderRadius: 9, cursor: "pointer", border: "none", flexShrink: 0, transition: "all 0.2s" }}>
+                style={{ ...sans, fontSize: 14, background: copied ? "#edf7ed" : "#f0ebe3", color: copied ? "#2e6a2e" : C.textMid, padding: "9px 14px", borderRadius: 9, cursor: "pointer", border: "none", flexShrink: 0, transition: "all 0.2s" }}>
                 {copied ? "Copied!" : "Copy"}
               </button>
             </div>
 
             <button onClick={signOut}
-              style={{ ...sans, fontSize: 11, color: C.textMuted, width: "100%", background: "none", border: `1px solid ${C.border}`, borderRadius: 9, padding: "8px", cursor: "pointer" }}>
+              style={{ ...sans, fontSize: 13, color: C.textMuted, width: "100%", background: "none", border: `1px solid ${C.border}`, borderRadius: 9, padding: "8px", cursor: "pointer" }}>
               Sign out
             </button>
           </>
         ) : (
           // ── Signed out ──────────────────────────────────────────────────
           <>
-            <p style={{ ...serifMed, fontSize: 20, color: C.text, marginBottom: 6 }}>Join antilog</p>
-            <p style={{ ...sans, fontSize: 13, color: C.textSub, marginBottom: 24, lineHeight: 1.5 }}>Sign in to post arguments, build your reputation, and get notified when someone rebuts you.</p>
+            <p style={{ ...serifMed, fontSize: 24, color: C.text, marginBottom: 6 }}>Join antilog</p>
+            <p style={{ ...sans, fontSize: 15, color: C.textSub, marginBottom: 24, lineHeight: 1.5 }}>Sign in to post arguments, build your reputation, and get notified when someone rebuts you.</p>
 
             <button onClick={signInWithGoogle} disabled={signingIn}
-              style={{ ...sansMed, fontSize: 13, width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "12px", borderRadius: 10, border: `1px solid ${C.border}`, background: "#fff", cursor: "pointer", marginBottom: 12, transition: "background 0.15s" }}
+              style={{ ...sansMed, fontSize: 15, width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "12px", borderRadius: 10, border: `1px solid ${C.border}`, background: "#fff", cursor: "pointer", marginBottom: 12, transition: "background 0.15s" }}
               onMouseEnter={e => e.currentTarget.style.background = C.card}
               onMouseLeave={e => e.currentTarget.style.background = "#fff"}>
               <svg width="18" height="18" viewBox="0 0 18 18">
@@ -395,12 +393,12 @@ function InviteModal({ onClose, user }) {
             </button>
 
             <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: "14px 16px", marginBottom: 8 }}>
-              <p style={{ ...sans, fontSize: 11, color: C.textSub, lineHeight: 1.6 }}>You can still read all debates and Fact Check arguments without signing in. An account lets you post, vote, and build your reputation.</p>
+              <p style={{ ...sans, fontSize: 13, color: C.textSub, lineHeight: 1.6 }}>You can still read all debates and Fact Check arguments without signing in. An account lets you post, vote, and build your reputation.</p>
             </div>
           </>
         )}
 
-        <button onClick={onClose} style={{ ...sans, fontSize: 11, color: C.textMuted, marginTop: 12, width: "100%", background: "none", border: "none", cursor: "pointer" }}>Close</button>
+        <button onClick={onClose} style={{ ...sans, fontSize: 13, color: C.textMuted, marginTop: 12, width: "100%", background: "none", border: "none", cursor: "pointer" }}>Close</button>
       </div>
     </div>
   );
@@ -421,21 +419,21 @@ function ShareSheet({ text, author, onClose }) {
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 60, padding: 16 }} onClick={onClose}>
       <div style={{ background: "#fff", borderRadius: 18, padding: 20, width: "100%", maxWidth: 380, boxShadow: "0 8px 40px rgba(0,0,0,0.15)" }} onClick={e => e.stopPropagation()}>
-        <p style={{ ...sans, fontSize: 10, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Share argument</p>
+        <p style={{ ...sans, fontSize: 12, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Share argument</p>
         <div style={{ borderLeft: `2px solid ${C.pro}`, paddingLeft: 10, marginBottom: 14 }}>
-          <p style={{ ...serif, fontSize: 13, color: C.textMid, fontStyle: "italic", lineHeight: 1.5 }}>"{text.slice(0, 100)}{text.length > 100 ? "…" : ""}"</p>
-          <p style={{ ...sans, fontSize: 11, color: C.textMuted, marginTop: 4 }}>— {author}</p>
+          <p style={{ ...serif, fontSize: 15, color: C.textMid, fontStyle: "italic", lineHeight: 1.5 }}>"{text.slice(0, 100)}{text.length > 100 ? "…" : ""}"</p>
+          <p style={{ ...sans, fontSize: 13, color: C.textMuted, marginTop: 4 }}>— {author}</p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {channels.map(c => (
             <button key={c.name} onClick={() => { if (c.url) window.open(c.url, "_blank"); if (c.action) c.action(); }}
-              style={{ ...sans, fontSize: 12, display: "flex", alignItems: "center", gap: 10, padding: "9px 12px", borderRadius: 10, background: C.card, color: C.textMid, cursor: "pointer", border: "none" }}>
+              style={{ ...sans, fontSize: 14, display: "flex", alignItems: "center", gap: 10, padding: "9px 12px", borderRadius: 10, background: C.card, color: C.textMid, cursor: "pointer", border: "none" }}>
               <span style={{ width: 20, textAlign: "center" }}>{c.icon}</span>
               {c.name === "Copy text" && copied ? "Copied!" : c.name}
             </button>
           ))}
         </div>
-        <button onClick={onClose} style={{ ...sans, fontSize: 11, color: C.textMuted, marginTop: 10, width: "100%", background: "none", border: "none", cursor: "pointer" }}>Close</button>
+        <button onClick={onClose} style={{ ...sans, fontSize: 13, color: C.textMuted, marginTop: 10, width: "100%", background: "none", border: "none", cursor: "pointer" }}>Close</button>
       </div>
     </div>
   );
@@ -450,37 +448,37 @@ function ProfileModal({ author, userData, onClose }) {
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 70, padding: 20 }} onClick={onClose}>
       <div style={{ background: "#fff", borderRadius: 18, padding: 24, width: "100%", maxWidth: 400, boxShadow: "0 8px 40px rgba(0,0,0,0.12)" }} onClick={e => e.stopPropagation()}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
-          <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#e8e0d4", color: C.textSub, display: "flex", alignItems: "center", justifyContent: "center", ...serifMed, fontSize: 20 }}>{userData.avatar}</div>
+          <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#e8e0d4", color: C.textSub, display: "flex", alignItems: "center", justifyContent: "center", ...serifMed, fontSize: 24 }}>{userData.avatar}</div>
           <div>
-            <p style={{ ...serifMed, fontSize: 17, color: C.text }}>{author}</p>
-            <p style={{ ...sans, fontSize: 12, color: tier.color, background: tier.bg, display: "inline-block", padding: "2px 8px", borderRadius: 10, marginTop: 2 }}>{tier.label}</p>
+            <p style={{ ...serifMed, fontSize: 20, color: C.text }}>{author}</p>
+            <p style={{ ...sans, fontSize: 14, color: tier.color, background: tier.bg, display: "inline-block", padding: "2px 8px", borderRadius: 10, marginTop: 2 }}>{tier.label}</p>
           </div>
         </div>
-        <p style={{ ...sans, fontSize: 12, color: C.textSub, marginBottom: 14, lineHeight: 1.5 }}>{tier.desc}</p>
+        <p style={{ ...sans, fontSize: 14, color: C.textSub, marginBottom: 14, lineHeight: 1.5 }}>{tier.desc}</p>
         <div style={{ marginBottom: 6, display: "flex", justifyContent: "space-between" }}>
-          <span style={{ ...sans, fontSize: 11, color: C.textMuted }}>Reputation</span>
-          <span style={{ ...sans, fontSize: 11, color: C.textSub }}>{userData.rep} / {tier.next} pts</span>
+          <span style={{ ...sans, fontSize: 13, color: C.textMuted }}>Reputation</span>
+          <span style={{ ...sans, fontSize: 13, color: C.textSub }}>{userData.rep} / {tier.next} pts</span>
         </div>
         <div style={{ height: 4, background: "#f0ebe4", borderRadius: 4, overflow: "hidden", marginBottom: 18 }}>
           <div style={{ width: `${pct}%`, height: "100%", background: tier.color, borderRadius: 4, transition: "width 0.6s" }} />
         </div>
         {userData.args?.length > 0 && (
           <>
-            <p style={{ ...sans, fontSize: 10, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10 }}>Recent arguments</p>
+            <p style={{ ...sans, fontSize: 12, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10 }}>Recent arguments</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {userData.args.map((a, i) => (
                 <div key={i} style={{ background: C.card, borderRadius: 10, padding: "8px 12px", borderLeft: `3px solid ${a.side === "pro" ? C.pro : C.con}` }}>
-                  <p style={{ ...serif, fontSize: 12, color: C.textMid, lineHeight: 1.5 }}>"{a.text.slice(0, 80)}…"</p>
+                  <p style={{ ...serif, fontSize: 14, color: C.textMid, lineHeight: 1.5 }}>"{a.text.slice(0, 80)}…"</p>
                   <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
-                    <span style={{ ...sans, fontSize: 10, color: C.textMuted }}>{a.topic} · {a.side === "pro" ? "For" : "Against"}</span>
-                    <span style={{ ...sans, fontSize: 10, color: C.pro }}>▲ {a.votes}</span>
+                    <span style={{ ...sans, fontSize: 12, color: C.textMuted }}>{a.topic} · {a.side === "pro" ? "For" : "Against"}</span>
+                    <span style={{ ...sans, fontSize: 12, color: C.pro }}>▲ {a.votes}</span>
                   </div>
                 </div>
               ))}
             </div>
           </>
         )}
-        <button onClick={onClose} style={{ ...sans, fontSize: 11, color: C.textMuted, marginTop: 16, width: "100%", background: "none", border: "none", cursor: "pointer" }}>Close</button>
+        <button onClick={onClose} style={{ ...sans, fontSize: 13, color: C.textMuted, marginTop: 16, width: "100%", background: "none", border: "none", cursor: "pointer" }}>Close</button>
       </div>
     </div>
   );
@@ -492,9 +490,9 @@ function RepBadge({ author, onOpenProfile }) {
   const tier = repTier(user.rep);
   return (
     <button onClick={() => onOpenProfile(author, user)} style={{ display: "flex", alignItems: "center", gap: 7, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-      <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#e8e0d4", color: C.textSub, display: "flex", alignItems: "center", justifyContent: "center", ...sansMed, fontSize: 10, flexShrink: 0 }}>{user.avatar}</div>
-      <span style={{ ...sans, fontSize: 12, color: C.textMid }}>{author}</span>
-      <span style={{ ...sans, fontSize: 9, color: tier.color, background: tier.bg, padding: "1px 6px", borderRadius: 10 }}>{tier.label}</span>
+      <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#e8e0d4", color: C.textSub, display: "flex", alignItems: "center", justifyContent: "center", ...sansMed, fontSize: 12, flexShrink: 0 }}>{user.avatar}</div>
+      <span style={{ ...sans, fontSize: 14, color: C.textMid }}>{author}</span>
+      <span style={{ ...sans, fontSize: 11, color: tier.color, background: tier.bg, padding: "1px 6px", borderRadius: 10 }}>{tier.label}</span>
     </button>
   );
 }
@@ -505,15 +503,15 @@ function FactCheckBadge({ text, source }) {
   const [result, setResult] = useState(null);
   const run = async () => { setState("loading"); const r = await runFactCheck(text, source); setResult(r); setState("done"); };
   if (state === "idle") return (
-    <button onClick={run} style={{ ...sans, fontSize: 10, color: C.textSub, background: "none", border: `1px dashed ${C.border}`, borderRadius: 8, padding: "2px 8px", cursor: "pointer" }}>
+    <button onClick={run} style={{ ...sans, fontSize: 12, color: C.textSub, background: "none", border: `1px dashed ${C.border}`, borderRadius: 8, padding: "2px 8px", cursor: "pointer" }}>
       Fact check
     </button>
   );
-  if (state === "loading") return <span style={{ ...sans, fontSize: 10, color: C.textMuted }}>Checking…</span>;
+  if (state === "loading") return <span style={{ ...sans, fontSize: 12, color: C.textMuted }}>Checking…</span>;
   const vs = verdictStyle[result.verdict] || verdictStyle.unsourced;
   return (
     <div style={{ background: vs.bg, borderRadius: 8, padding: "6px 10px", marginTop: 6 }}>
-      <p style={{ ...sans, fontSize: 10, color: vs.color }}><span style={{ marginRight: 4 }}>{vs.icon}</span><strong>{result.verdict}</strong> · {result.note}</p>
+      <p style={{ ...sans, fontSize: 12, color: vs.color }}><span style={{ marginRight: 4 }}>{vs.icon}</span><strong>{result.verdict}</strong> · {result.note}</p>
     </div>
   );
 }
@@ -530,7 +528,7 @@ function RadialBalance({ pro, con, size = 68 }) {
         <circle cx={cx} cy={cy} r={r} fill="none" stroke={C.pro} strokeWidth={sw} strokeDasharray={`${circ * f} ${circ}`} strokeLinecap="round" transform={`rotate(-90 ${cx} ${cy})`} />
         <text x={cx} y={cy + 4} textAnchor="middle" fontSize={size * 0.145} fill={C.textSub} style={sans}>{Math.round(f * 100)}%</text>
       </svg>
-      <span style={{ ...sans, fontSize: 8, color: C.textMuted, letterSpacing: "0.08em", textTransform: "uppercase" }}>for</span>
+      <span style={{ ...sans, fontSize: 9, color: C.textMuted, letterSpacing: "0.08em", textTransform: "uppercase" }}>for</span>
     </div>
   );
 }
@@ -542,7 +540,7 @@ function DotMatrix({ pro, con }) {
       <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 6 }}>
         {Array.from({ length: dots }).map((_, i) => <div key={i} style={{ width: 8, height: 8, borderRadius: 2, background: i < proDots ? C.pro : C.con, opacity: 0.85 }} />)}
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between", ...sans, fontSize: 10, color: C.textMuted }}>
+      <div style={{ display: "flex", justifyContent: "space-between", ...sans, fontSize: 12, color: C.textMuted }}>
         <span>{Math.round((pro / total) * 100)}% lean For</span>
         <span>{Math.round((con / total) * 100)}% lean Against</span>
       </div>
@@ -557,7 +555,7 @@ function PullBar({ pro, con }) {
       <div style={{ width: "100%", height: 3, background: C.con, borderRadius: 3, overflow: "hidden" }}>
         <div style={{ width: `${pw}%`, height: "100%", background: C.pro, borderRadius: 3, transition: "width 0.6s" }} />
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between", ...sans, fontSize: 10, color: C.textMuted, marginTop: 4 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", ...sans, fontSize: 12, color: C.textMuted, marginTop: 4 }}>
         <span>For · {pro}pts</span><span>Against · {con}pts</span>
       </div>
     </div>
@@ -570,7 +568,7 @@ function VoteBtn({ votes, onVote }) {
   const [voted, setVoted] = useState(false);
   return (
     <button onClick={() => { const v = !voted; setCount(c => v ? c + 1 : c - 1); setVoted(v); onVote?.(v ? 1 : -1); }}
-      style={{ ...sans, fontSize: 11, background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 3, color: voted ? "#a07c0a" : C.textMuted, padding: 0, transition: "color 0.15s" }}>
+      style={{ ...sans, fontSize: 13, background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 3, color: voted ? "#a07c0a" : C.textMuted, padding: 0, transition: "color 0.15s" }}>
       ▲ {count}
     </button>
   );
@@ -586,17 +584,17 @@ function RebuttalForm({ side, onSubmit, onCancel }) {
   return (
     <div style={{ marginTop: 12, padding: "12px 14px", background: "#fdfaf6", border: `1.5px solid ${accentColor}`, borderRadius: 10 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8, flexWrap: "wrap" }}>
-        <span style={{ ...sans, fontSize: 10, color: accentColor, textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 500 }}>⇄ Rebuttal from {sideLabel}</span>
-        <span style={{ ...sans, fontSize: 10, color: C.textMuted }}>· Will also appear as a card in the {sideLabel} column</span>
+        <span style={{ ...sans, fontSize: 12, color: accentColor, textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 500 }}>⇄ Rebuttal from {sideLabel}</span>
+        <span style={{ ...sans, fontSize: 12, color: C.textMuted }}>· Will also appear as a card in the {sideLabel} column</span>
       </div>
       <textarea value={text} onChange={e => setText(e.target.value)} placeholder={`Make your case from the ${sideLabel} side…`} rows={3}
-        style={{ ...serif, fontSize: 13, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", resize: "none", background: "#fff", outline: "none", boxSizing: "border-box" }} />
+        style={{ ...serif, fontSize: 15, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", resize: "none", background: "#fff", outline: "none", boxSizing: "border-box" }} />
       <input value={source} onChange={e => setSource(e.target.value)} placeholder="Source (optional)"
-        style={{ ...sans, fontSize: 11, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "6px 10px", marginTop: 4, background: "#fff", outline: "none", boxSizing: "border-box" }} />
+        style={{ ...sans, fontSize: 13, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "6px 10px", marginTop: 4, background: "#fff", outline: "none", boxSizing: "border-box" }} />
       <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
         <button onClick={() => { if (text.trim()) onSubmit(text, source); }}
-          style={{ ...sans, fontSize: 12, background: accentColor, color: "#fff", padding: "6px 14px", borderRadius: 8, cursor: "pointer", border: "none" }}>Post rebuttal</button>
-        <button onClick={onCancel} style={{ ...sans, fontSize: 12, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
+          style={{ ...sans, fontSize: 14, background: accentColor, color: "#fff", padding: "6px 14px", borderRadius: 8, cursor: "pointer", border: "none" }}>Post rebuttal</button>
+        <button onClick={onCancel} style={{ ...sans, fontSize: 14, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
       </div>
     </div>
   );
@@ -609,14 +607,14 @@ function RebuttalPreview({ rebuttal, onScrollToCard, onOpenProfile, onRep }) {
   return (
     <div style={{ marginTop: 10, paddingLeft: 12, borderLeft: `2px dashed ${accentColor}` }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
-        <span style={{ ...sans, fontSize: 9, color: accentColor, textTransform: "uppercase", letterSpacing: "0.1em" }}>⇄ Rebuttal · {sideLabel}</span>
+        <span style={{ ...sans, fontSize: 11, color: accentColor, textTransform: "uppercase", letterSpacing: "0.1em" }}>⇄ Rebuttal · {sideLabel}</span>
         <button onClick={onScrollToCard}
-          style={{ ...sans, fontSize: 9, color: C.textMuted, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationStyle: "dotted" }}>
+          style={{ ...sans, fontSize: 11, color: C.textMuted, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationStyle: "dotted" }}>
           view in {sideLabel} column →
         </button>
       </div>
       <RepBadge author={rebuttal.author} onOpenProfile={onOpenProfile} />
-      <p style={{ ...serif, fontSize: 12.5, color: C.textMid, lineHeight: 1.6, margin: "5px 0 4px", fontStyle: "italic" }}>
+      <p style={{ ...serif, fontSize: 15, color: C.textMid, lineHeight: 1.6, margin: "5px 0 4px", fontStyle: "italic" }}>
         "{rebuttal.text.slice(0, 130)}{rebuttal.text.length > 130 ? "…" : ""}"
       </p>
       <VoteBtn votes={rebuttal.votes} onVote={d => onRep(rebuttal.author, d * 8)} />
@@ -633,20 +631,20 @@ function RebuttalCard({ rebuttal, originalArg, onScrollToOriginal, onShare, onFo
     <div ref={cardRef} style={{ borderLeft: `3px solid ${accentColor}`, background: C.card, borderRadius: "0 12px 12px 0", padding: "14px 14px 12px" }}>
       <button onClick={onScrollToOriginal}
         style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, padding: "6px 10px", background: "#f2ede6", borderRadius: 8, borderLeft: `2px solid ${originalAccent}`, width: "100%", textAlign: "left", cursor: "pointer", border: "none", borderLeft: `2px solid ${originalAccent}` }}>
-        <span style={{ ...sans, fontSize: 9, color: originalAccent, textTransform: "uppercase", letterSpacing: "0.08em", flexShrink: 0 }}>↩ rebutting {originalLabel}</span>
-        <span style={{ ...serif, fontSize: 11, color: C.textSub, fontStyle: "italic", flex: 1, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+        <span style={{ ...sans, fontSize: 11, color: originalAccent, textTransform: "uppercase", letterSpacing: "0.08em", flexShrink: 0 }}>↩ rebutting {originalLabel}</span>
+        <span style={{ ...serif, fontSize: 13, color: C.textSub, fontStyle: "italic", flex: 1, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
           "{originalArg?.text?.slice(0, 65)}…"
         </span>
-        <span style={{ ...sans, fontSize: 9, color: C.textMuted, flexShrink: 0 }}>view →</span>
+        <span style={{ ...sans, fontSize: 11, color: C.textMuted, flexShrink: 0 }}>view →</span>
       </button>
       <RepBadge author={rebuttal.author} onOpenProfile={onOpenProfile} />
-      <p style={{ ...serif, fontSize: 13.5, color: C.text, lineHeight: 1.7, margin: "8px 0 4px" }}>{rebuttal.text}</p>
-      {rebuttal.source && <p style={{ ...sans, fontSize: 11, color: C.textMuted, fontStyle: "italic", marginBottom: 6 }}>— {rebuttal.source}</p>}
+      <p style={{ ...serif, fontSize: 16, color: C.text, lineHeight: 1.7, margin: "8px 0 4px" }}>{rebuttal.text}</p>
+      {rebuttal.source && <p style={{ ...sans, fontSize: 13, color: C.textMuted, fontStyle: "italic", marginBottom: 6 }}>— {rebuttal.source}</p>}
       <FactCheckBadge text={rebuttal.text} source={rebuttal.source} />
       <div style={{ display: "flex", gap: 12, marginTop: 8, alignItems: "center" }}>
         <VoteBtn votes={rebuttal.votes} onVote={d => onRep(rebuttal.author, d * 10)} />
-        <button onClick={() => onFork(rebuttal)} style={{ ...sans, fontSize: 11, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>⑃ fork</button>
-        <button onClick={() => onShare(rebuttal)} style={{ ...sans, fontSize: 11, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>↗ share</button>
+        <button onClick={() => onFork(rebuttal)} style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>⑃ fork</button>
+        <button onClick={() => onShare(rebuttal)} style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>↗ share</button>
       </div>
     </div>
   );
@@ -657,13 +655,13 @@ function ReplyCard({ reply, onFork, onShare, onOpenProfile, onRep }) {
   return (
     <div style={{ marginTop: 10, marginLeft: 32, paddingLeft: 12, borderLeft: `1px solid ${C.border}` }}>
       <RepBadge author={reply.author} onOpenProfile={onOpenProfile} />
-      <p style={{ ...serif, fontSize: 13, color: C.textMid, lineHeight: 1.65, margin: "6px 0 3px" }}>{reply.text}</p>
-      {reply.source && <p style={{ ...sans, fontSize: 11, color: C.textMuted, fontStyle: "italic" }}>— {reply.source}</p>}
+      <p style={{ ...serif, fontSize: 15, color: C.textMid, lineHeight: 1.65, margin: "6px 0 3px" }}>{reply.text}</p>
+      {reply.source && <p style={{ ...sans, fontSize: 13, color: C.textMuted, fontStyle: "italic" }}>— {reply.source}</p>}
       <FactCheckBadge text={reply.text} source={reply.source} />
       <div style={{ display: "flex", gap: 12, marginTop: 6, alignItems: "center" }}>
         <VoteBtn votes={reply.votes} onVote={d => onRep(reply.author, d * 5)} />
-        <button onClick={() => onFork(reply)} style={{ ...sans, fontSize: 11, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>⑃ fork</button>
-        <button onClick={() => onShare(reply)} style={{ ...sans, fontSize: 11, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>↗ share</button>
+        <button onClick={() => onFork(reply)} style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>⑃ fork</button>
+        <button onClick={() => onShare(reply)} style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>↗ share</button>
       </div>
     </div>
   );
@@ -695,18 +693,18 @@ function ArgCard({ arg, side, rebuttals, cardRef, onFork, onShare, onOpenProfile
   return (
     <div ref={cardRef} style={{ borderLeft: `3px solid ${accent}`, background: C.card, borderRadius: "0 12px 12px 0", padding: "14px 14px 12px" }}>
       <RepBadge author={arg.author} onOpenProfile={onOpenProfile} />
-      <p style={{ ...serif, fontSize: 13.5, color: C.text, lineHeight: 1.7, margin: "8px 0 4px" }}>{arg.text}</p>
-      {arg.source && <p style={{ ...sans, fontSize: 11, color: C.textMuted, fontStyle: "italic", marginBottom: 6 }}>— {arg.source}</p>}
+      <p style={{ ...serif, fontSize: 16, color: C.text, lineHeight: 1.7, margin: "8px 0 4px" }}>{arg.text}</p>
+      {arg.source && <p style={{ ...sans, fontSize: 13, color: C.textMuted, fontStyle: "italic", marginBottom: 6 }}>— {arg.source}</p>}
       <FactCheckBadge text={arg.text} source={arg.source} />
 
       <div style={{ display: "flex", gap: 10, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
         <VoteBtn votes={arg.votes} onVote={d => onRep(arg.author, d * 10)} />
         <button onClick={() => { if (!user) { onSignIn(); return; } setShowReplyForm(v => !v); setShowRebuttalForm(false); }}
-          style={{ ...sans, fontSize: 11, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Reply</button>
+          style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Reply</button>
         <button onClick={() => { if (!user) { onSignIn(); return; } setShowRebuttalForm(v => !v); setShowReplyForm(false); }}
-          style={{ ...sans, fontSize: 11, color: opposingAccent, background: "none", border: `1px solid ${opposingAccent}`, borderRadius: 6, padding: "2px 9px", cursor: "pointer", opacity: 0.9 }}>⇄ Rebut</button>
-        <button onClick={() => onFork(arg)} style={{ ...sans, fontSize: 11, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>⑃ fork</button>
-        <button onClick={() => onShare(arg)} style={{ ...sans, fontSize: 11, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>↗ share</button>
+          style={{ ...sans, fontSize: 13, color: opposingAccent, background: "none", border: `1px solid ${opposingAccent}`, borderRadius: 6, padding: "2px 9px", cursor: "pointer", opacity: 0.9 }}>⇄ Rebut</button>
+        <button onClick={() => onFork(arg)} style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>⑃ fork</button>
+        <button onClick={() => onShare(arg)} style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>↗ share</button>
       </div>
 
       {replies.map(r => <ReplyCard key={r.id} reply={r} onFork={onFork} onShare={onShare} onOpenProfile={onOpenProfile} onRep={onRep} />)}
@@ -714,7 +712,7 @@ function ArgCard({ arg, side, rebuttals, cardRef, onFork, onShare, onOpenProfile
       {isAdmin && (
         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 4 }}>
           <button onClick={() => { if (window.confirm("Delete this argument and all its replies?")) onDelete("argument", arg.id); }}
-            style={{ ...sans, fontSize: 10, color: "#c0504d", background: "none", border: "1px solid #e8c8c8", borderRadius: 6, padding: "2px 10px", cursor: "pointer" }}>
+            style={{ ...sans, fontSize: 12, color: "#c0504d", background: "none", border: "1px solid #e8c8c8", borderRadius: 6, padding: "2px 10px", cursor: "pointer" }}>
             🗑 Delete
           </button>
         </div>
@@ -722,12 +720,12 @@ function ArgCard({ arg, side, rebuttals, cardRef, onFork, onShare, onOpenProfile
       {showReplyForm && (
         <div style={{ marginTop: 12, marginLeft: 32 }}>
           <textarea value={replyText} onChange={e => setReplyText(e.target.value)} placeholder="Add your perspective…" rows={3}
-            style={{ ...serif, fontSize: 13, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", resize: "none", background: "#fff", outline: "none", boxSizing: "border-box" }} />
+            style={{ ...serif, fontSize: 15, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", resize: "none", background: "#fff", outline: "none", boxSizing: "border-box" }} />
           <input value={replySource} onChange={e => setReplySource(e.target.value)} placeholder="Source (optional)"
-            style={{ ...sans, fontSize: 11, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "6px 10px", marginTop: 4, background: "#fff", outline: "none", boxSizing: "border-box" }} />
+            style={{ ...sans, fontSize: 13, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "6px 10px", marginTop: 4, background: "#fff", outline: "none", boxSizing: "border-box" }} />
           <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-            <button onClick={submitReply} style={{ ...sans, fontSize: 12, background: accent, color: "#fff", padding: "6px 14px", borderRadius: 8, cursor: "pointer", border: "none" }}>Post</button>
-            <button onClick={() => setShowReplyForm(false)} style={{ ...sans, fontSize: 12, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
+            <button onClick={submitReply} style={{ ...sans, fontSize: 14, background: accent, color: "#fff", padding: "6px 14px", borderRadius: 8, cursor: "pointer", border: "none" }}>Post</button>
+            <button onClick={() => setShowReplyForm(false)} style={{ ...sans, fontSize: 14, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
           </div>
         </div>
       )}
@@ -757,17 +755,17 @@ function AddArgPanel({ side, onAdd, user, onSignIn }) {
   return (
     <div style={{ marginTop: 10 }}>
       {!open
-        ? <button onClick={() => setOpen(true)} style={{ ...sans, fontSize: 12, color: accent, border: `1.5px dashed ${accent}`, borderRadius: 10, padding: "9px", width: "100%", background: "transparent", cursor: "pointer", opacity: 0.8 }}>
+        ? <button onClick={() => setOpen(true)} style={{ ...sans, fontSize: 14, color: accent, border: `1.5px dashed ${accent}`, borderRadius: 10, padding: "9px", width: "100%", background: "transparent", cursor: "pointer", opacity: 0.8 }}>
             + Add a case {side === "pro" ? "for" : "against"}
           </button>
         : <div style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: 12, padding: 14 }}>
             <textarea value={text} onChange={e => setText(e.target.value)} placeholder="State your case clearly and honestly…" rows={4}
-              style={{ ...serif, fontSize: 13, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", resize: "none", marginBottom: 8, outline: "none", boxSizing: "border-box" }} />
+              style={{ ...serif, fontSize: 15, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", resize: "none", marginBottom: 8, outline: "none", boxSizing: "border-box" }} />
             <input value={source} onChange={e => setSource(e.target.value)} placeholder="Source or citation (optional)"
-              style={{ ...sans, fontSize: 11, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "6px 10px", marginBottom: 10, outline: "none", boxSizing: "border-box" }} />
+              style={{ ...sans, fontSize: 13, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "6px 10px", marginBottom: 10, outline: "none", boxSizing: "border-box" }} />
             <div style={{ display: "flex", gap: 8 }}>
-              <button onClick={submit} style={{ ...sans, fontSize: 12, background: accent, color: "#fff", padding: "7px 16px", borderRadius: 8, cursor: "pointer", border: "none" }}>Submit</button>
-              <button onClick={() => setOpen(false)} style={{ ...sans, fontSize: 12, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
+              <button onClick={submit} style={{ ...sans, fontSize: 14, background: accent, color: "#fff", padding: "7px 16px", borderRadius: 8, cursor: "pointer", border: "none" }}>Submit</button>
+              <button onClick={() => setOpen(false)} style={{ ...sans, fontSize: 14, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
             </div>
           </div>
       }
@@ -790,19 +788,19 @@ function ForkModal({ sourceArg, onConfirm, onClose }) {
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 60, padding: 20 }} onClick={onClose}>
       <div style={{ background: "#fff", borderRadius: 18, padding: 24, width: "100%", maxWidth: 460, boxShadow: "0 8px 40px rgba(0,0,0,0.12)" }} onClick={e => e.stopPropagation()}>
         <div style={{ borderLeft: `3px solid ${C.pro}`, paddingLeft: 12, marginBottom: 16 }}>
-          <p style={{ ...sans, fontSize: 10, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>Forking from</p>
-          <p style={{ ...serif, fontSize: 13, color: C.textMid, fontStyle: "italic", lineHeight: 1.6 }}>"{sourceArg.text.slice(0, 110)}…"</p>
-          <p style={{ ...sans, fontSize: 11, color: C.textMuted, marginTop: 4 }}>— {sourceArg.author}</p>
+          <p style={{ ...sans, fontSize: 12, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>Forking from</p>
+          <p style={{ ...serif, fontSize: 15, color: C.textMid, fontStyle: "italic", lineHeight: 1.6 }}>"{sourceArg.text.slice(0, 110)}…"</p>
+          <p style={{ ...sans, fontSize: 13, color: C.textMuted, marginTop: 4 }}>— {sourceArg.author}</p>
         </div>
-        <p style={{ ...serifMed, fontSize: 16, color: C.text, marginBottom: 14 }}>Start a new truth from this point</p>
-        <select value={category} onChange={e => setCategory(e.target.value)} style={{ ...sans, fontSize: 12, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "7px 10px", marginBottom: 10, outline: "none", boxSizing: "border-box" }}>
+        <p style={{ ...serifMed, fontSize: 19, color: C.text, marginBottom: 14 }}>Start a new truth from this point</p>
+        <select value={category} onChange={e => setCategory(e.target.value)} style={{ ...sans, fontSize: 14, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "7px 10px", marginBottom: 10, outline: "none", boxSizing: "border-box" }}>
           {cats.map(c => <option key={c}>{c}</option>)}
         </select>
-        <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Frame the new truth clearly…" style={{ ...sans, fontSize: 13, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", marginBottom: 10, outline: "none", boxSizing: "border-box" }} />
-        <textarea value={summary} onChange={e => setSummary(e.target.value)} placeholder="Context (optional)…" rows={2} style={{ ...serif, fontSize: 13, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", resize: "none", marginBottom: 14, outline: "none", boxSizing: "border-box" }} />
+        <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Frame the new truth clearly…" style={{ ...sans, fontSize: 15, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", marginBottom: 10, outline: "none", boxSizing: "border-box" }} />
+        <textarea value={summary} onChange={e => setSummary(e.target.value)} placeholder="Context (optional)…" rows={2} style={{ ...serif, fontSize: 15, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", resize: "none", marginBottom: 14, outline: "none", boxSizing: "border-box" }} />
         <div style={{ display: "flex", gap: 8 }}>
-          <button onClick={submit} style={{ ...sans, fontSize: 13, background: C.pro, color: "#fff", padding: "8px 18px", borderRadius: 9, cursor: "pointer", border: "none" }}>Create fork</button>
-          <button onClick={onClose} style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
+          <button onClick={submit} style={{ ...sans, fontSize: 15, background: C.pro, color: "#fff", padding: "8px 18px", borderRadius: 9, cursor: "pointer", border: "none" }}>Create fork</button>
+          <button onClick={onClose} style={{ ...sans, fontSize: 15, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
         </div>
       </div>
     </div>
@@ -823,16 +821,16 @@ function NewTopicModal({ onAdd, onClose }) {
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 60, padding: 20 }} onClick={onClose}>
       <div style={{ background: "#fff", borderRadius: 18, padding: 24, width: "100%", maxWidth: 460, boxShadow: "0 8px 40px rgba(0,0,0,0.12)" }} onClick={e => e.stopPropagation()}>
-        <p style={{ ...serifMed, fontSize: 18, color: C.text, marginBottom: 4 }}>Start a new truth</p>
-        <p style={{ ...sans, fontSize: 12, color: C.textSub, marginBottom: 16 }}>Pose a clear, debatable statement. Both sides will be heard.</p>
-        <select value={category} onChange={e => setCategory(e.target.value)} style={{ ...sans, fontSize: 12, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "7px 10px", marginBottom: 10, outline: "none", boxSizing: "border-box" }}>
+        <p style={{ ...serifMed, fontSize: 21, color: C.text, marginBottom: 4 }}>Start a new truth</p>
+        <p style={{ ...sans, fontSize: 14, color: C.textSub, marginBottom: 16 }}>Pose a clear, debatable statement. Both sides will be heard.</p>
+        <select value={category} onChange={e => setCategory(e.target.value)} style={{ ...sans, fontSize: 14, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "7px 10px", marginBottom: 10, outline: "none", boxSizing: "border-box" }}>
           {cats.map(c => <option key={c}>{c}</option>)}
         </select>
-        <input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Ranked-choice voting should replace first-past-the-post" style={{ ...sans, fontSize: 13, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", marginBottom: 10, outline: "none", boxSizing: "border-box" }} />
-        <textarea value={summary} onChange={e => setSummary(e.target.value)} placeholder="Briefly describe the context or stakes…" rows={3} style={{ ...serif, fontSize: 13, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", resize: "none", marginBottom: 16, outline: "none", boxSizing: "border-box" }} />
+        <input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Ranked-choice voting should replace first-past-the-post" style={{ ...sans, fontSize: 15, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", marginBottom: 10, outline: "none", boxSizing: "border-box" }} />
+        <textarea value={summary} onChange={e => setSummary(e.target.value)} placeholder="Briefly describe the context or stakes…" rows={3} style={{ ...serif, fontSize: 15, width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", resize: "none", marginBottom: 16, outline: "none", boxSizing: "border-box" }} />
         <div style={{ display: "flex", gap: 8 }}>
-          <button onClick={submit} style={{ ...sans, fontSize: 13, background: C.text, color: "#fff", padding: "8px 18px", borderRadius: 9, cursor: "pointer", border: "none" }}>Post truth</button>
-          <button onClick={onClose} style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
+          <button onClick={submit} style={{ ...sans, fontSize: 15, background: C.text, color: "#fff", padding: "8px 18px", borderRadius: 9, cursor: "pointer", border: "none" }}>Post truth</button>
+          <button onClick={onClose} style={{ ...sans, fontSize: 15, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Cancel</button>
         </div>
       </div>
     </div>
@@ -865,8 +863,8 @@ function MobileTabs({ args, rebuttals, argRefs, rebuttalCardRefs, pro, con,
                 transition: "background 0.18s",
                 display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
               }}>
-              <span style={{ ...sansMed, fontSize: 12, color: active ? "#fff" : color }}>{label}</span>
-              <span style={{ ...sans, fontSize: 10, color: active ? "rgba(255,255,255,0.8)" : C.textMuted }}>{argCount} argument{argCount !== 1 ? "s" : ""} · {pct}% lean</span>
+              <span style={{ ...sansMed, fontSize: 14, color: active ? "#fff" : color }}>{label}</span>
+              <span style={{ ...sans, fontSize: 12, color: active ? "rgba(255,255,255,0.8)" : C.textMuted }}>{argCount} argument{argCount !== 1 ? "s" : ""} · {pct}% lean</span>
             </button>
           );
         })}
@@ -899,7 +897,7 @@ function MobileTabs({ args, rebuttals, argRefs, rebuttalCardRefs, pro, con,
           ))}
           <AddArgPanel side="pro" onAdd={arg => onAddArg("pro", arg)} user={user} onSignIn={onSignIn} />
           <button onClick={() => setTab("con")}
-            style={{ ...sans, fontSize: 12, color: C.con, background: "none", border: `1px solid ${C.con}`, borderRadius: 10, padding: "10px", cursor: "pointer", marginTop: 8, opacity: 0.85 }}>
+            style={{ ...sans, fontSize: 14, color: C.con, background: "none", border: `1px solid ${C.con}`, borderRadius: 10, padding: "10px", cursor: "pointer", marginTop: 8, opacity: 0.85 }}>
             See the case Against →
           </button>
         </div>
@@ -924,7 +922,7 @@ function MobileTabs({ args, rebuttals, argRefs, rebuttalCardRefs, pro, con,
           ))}
           <AddArgPanel side="con" onAdd={arg => onAddArg("con", arg)} user={user} onSignIn={onSignIn} />
           <button onClick={() => setTab("pro")}
-            style={{ ...sans, fontSize: 12, color: C.pro, background: "none", border: `1px solid ${C.pro}`, borderRadius: 10, padding: "10px", cursor: "pointer", marginTop: 8, opacity: 0.85 }}>
+            style={{ ...sans, fontSize: 14, color: C.pro, background: "none", border: `1px solid ${C.pro}`, borderRadius: 10, padding: "10px", cursor: "pointer", marginTop: 8, opacity: 0.85 }}>
             ← See the case For
           </button>
         </div>
@@ -991,38 +989,38 @@ function DebateView({ topic, onBack, onArgUpdate, onForkCreated, onOpenProfile, 
 
   return (
     <div ref={containerRef} style={{ maxWidth: 920, margin: "0 auto", padding: "32px 20px" }}>
-      <button onClick={onBack} style={{ ...sans, fontSize: 11, color: C.textMuted, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 24, display: "flex", alignItems: "center", gap: 4, background: "none", border: "none", cursor: "pointer" }}>
+      <button onClick={onBack} style={{ ...sans, fontSize: 13, color: C.textMuted, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 24, display: "flex", alignItems: "center", gap: 4, background: "none", border: "none", cursor: "pointer" }}>
         ← All truths
       </button>
 
       {topic.forkedFrom && (
         <div style={{ borderLeft: `3px solid ${C.pro}`, paddingLeft: 12, marginBottom: 20, background: "#fdf9f3", borderRadius: "0 8px 8px 0", padding: "10px 12px" }}>
-          <p style={{ ...sans, fontSize: 10, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>⑃ Forked from a comment by {topic.forkedAuthor}</p>
-          <p style={{ ...serif, fontSize: 13, color: C.textSub, fontStyle: "italic", marginTop: 4 }}>"{topic.forkedFrom.slice(0, 120)}…"</p>
+          <p style={{ ...sans, fontSize: 12, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>⑃ Forked from a comment by {topic.forkedAuthor}</p>
+          <p style={{ ...serif, fontSize: 15, color: C.textSub, fontStyle: "italic", marginTop: 4 }}>"{topic.forkedFrom.slice(0, 120)}…"</p>
         </div>
       )}
 
-      <p style={{ ...sans, fontSize: 11, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>{topic.category}</p>
-      <h1 style={{ ...serif, fontSize: 22, color: C.text, lineHeight: 1.4, margin: "6px 0 6px" }}>"{topic.title}"</h1>
-      <p style={{ ...sans, fontSize: 13, color: C.textSub, marginBottom: 20 }}>{topic.summary}</p>
+      <p style={{ ...sans, fontSize: 13, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>{topic.category}</p>
+      <h1 style={{ ...serif, fontSize: 26, color: C.text, lineHeight: 1.4, margin: "6px 0 6px" }}>"{topic.title}"</h1>
+      <p style={{ ...sans, fontSize: 15, color: C.textSub, marginBottom: 20 }}>{topic.summary}</p>
 
       <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: "16px 18px", marginBottom: 16, display: "flex", alignItems: "center", gap: 20 }}>
         <RadialBalance pro={pro} con={con} />
         <div style={{ flex: 1 }}>
-          <p style={{ ...sans, fontSize: 10, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Community lean</p>
+          <p style={{ ...sans, fontSize: 12, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Community lean</p>
           <DotMatrix pro={pro} con={con} />
           <div style={{ display: "flex", gap: 16, marginTop: 10, flexWrap: "wrap" }}>
-            <span style={{ ...sans, fontSize: 11, color: C.textSub }}><span style={{ display: "inline-block", width: 8, height: 8, background: C.pro, borderRadius: 2, marginRight: 4 }} />For · {args.pro.length} args</span>
-            <span style={{ ...sans, fontSize: 11, color: C.textSub }}><span style={{ display: "inline-block", width: 8, height: 8, background: C.con, borderRadius: 2, marginRight: 4 }} />Against · {args.con.length} args</span>
-            {rebuttals.length > 0 && <span style={{ ...sans, fontSize: 11, color: C.textSub }}>⇄ {rebuttals.length} rebuttal{rebuttals.length !== 1 ? "s" : ""}</span>}
+            <span style={{ ...sans, fontSize: 13, color: C.textSub }}><span style={{ display: "inline-block", width: 8, height: 8, background: C.pro, borderRadius: 2, marginRight: 4 }} />For · {args.pro.length} args</span>
+            <span style={{ ...sans, fontSize: 13, color: C.textSub }}><span style={{ display: "inline-block", width: 8, height: 8, background: C.con, borderRadius: 2, marginRight: 4 }} />Against · {args.con.length} args</span>
+            {rebuttals.length > 0 && <span style={{ ...sans, fontSize: 13, color: C.textSub }}>⇄ {rebuttals.length} rebuttal{rebuttals.length !== 1 ? "s" : ""}</span>}
           </div>
         </div>
       </div>
 
       <div style={{ display: "flex", gap: 16, marginBottom: 20, padding: "7px 12px", background: "#f5f2ee", borderRadius: 8, flexWrap: "wrap" }}>
-        <span style={{ ...sans, fontSize: 10, color: C.textSub }}><strong>Reply</strong> — same-side elaboration</span>
-        <span style={{ ...sans, fontSize: 10, color: C.textMuted }}>·</span>
-        <span style={{ ...sans, fontSize: 10, color: C.textSub }}><strong>⇄ Rebut</strong> — cross-aisle challenge: preview stays here, full card appears in the opposing column</span>
+        <span style={{ ...sans, fontSize: 12, color: C.textSub }}><strong>Reply</strong> — same-side elaboration</span>
+        <span style={{ ...sans, fontSize: 12, color: C.textMuted }}>·</span>
+        <span style={{ ...sans, fontSize: 12, color: C.textSub }}><strong>⇄ Rebut</strong> — cross-aisle challenge: preview stays here, full card appears in the opposing column</span>
       </div>
 
       {narrow ? (
@@ -1046,7 +1044,7 @@ function DebateView({ topic, onBack, onArgUpdate, onForkCreated, onOpenProfile, 
         // ── Desktop: side-by-side columns ────────────────────────────────
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
           <div>
-            <p style={{ ...sans, fontSize: 10, color: C.pro, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 12 }}>For</p>
+            <p style={{ ...sans, fontSize: 12, color: C.pro, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 12 }}>For</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {args.pro.map(a => (
                 <ArgCard key={a.id} arg={a} side="pro" rebuttals={rebuttals}
@@ -1069,7 +1067,7 @@ function DebateView({ topic, onBack, onArgUpdate, onForkCreated, onOpenProfile, 
             <AddArgPanel side="pro" onAdd={arg => addArg("pro", arg)} user={user} onSignIn={onSignIn} />
           </div>
           <div>
-            <p style={{ ...sans, fontSize: 10, color: C.con, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 12 }}>Against</p>
+            <p style={{ ...sans, fontSize: 12, color: C.con, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 12 }}>Against</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {args.con.map(a => (
                 <ArgCard key={a.id} arg={a} side="con" rebuttals={rebuttals}
@@ -1114,13 +1112,13 @@ function TopicCard({ topic, onClick, isAdmin, onDelete }) {
           <RadialBalance pro={pro} con={con} size={60} />
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: "flex", gap: 6, alignItems: "center", marginBottom: 4 }}>
-              <span style={{ ...sans, fontSize: 10, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>{topic.category}</span>
-              {topic.hot && <span style={{ ...sans, fontSize: 9, background: "#fdf3e7", color: C.pro, padding: "1px 7px", borderRadius: 10 }}>trending</span>}
-              {topic.forkedFrom && <span style={{ ...sans, fontSize: 9, background: "#fdf3e7", color: C.con, padding: "1px 7px", borderRadius: 10 }}>⑃ fork</span>}
+              <span style={{ ...sans, fontSize: 12, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>{topic.category}</span>
+              {topic.hot && <span style={{ ...sans, fontSize: 11, background: "#fdf3e7", color: C.pro, padding: "1px 7px", borderRadius: 10 }}>trending</span>}
+              {topic.forkedFrom && <span style={{ ...sans, fontSize: 11, background: "#fdf3e7", color: C.con, padding: "1px 7px", borderRadius: 10 }}>⑃ fork</span>}
             </div>
-            <p style={{ ...serif, fontSize: 14.5, color: C.text, lineHeight: 1.5, marginBottom: 8 }}>{topic.title}</p>
+            <p style={{ ...serif, fontSize: 17, color: C.text, lineHeight: 1.5, marginBottom: 8 }}>{topic.title}</p>
             <PullBar pro={pro} con={con} />
-            <p style={{ ...sans, fontSize: 10, color: C.textMuted, marginTop: 6 }}>
+            <p style={{ ...sans, fontSize: 12, color: C.textMuted, marginTop: 6 }}>
               {totalArgs} argument{totalArgs !== 1 ? "s" : ""}
               {rebuttalCount > 0 && ` · ⇄ ${rebuttalCount} rebuttal${rebuttalCount !== 1 ? "s" : ""}`}
             </p>
@@ -1130,7 +1128,7 @@ function TopicCard({ topic, onClick, isAdmin, onDelete }) {
       {isAdmin && (
         <button
           onClick={e => { e.stopPropagation(); if (window.confirm("Delete this truth and all its arguments?")) onDelete("topic", topic.id); }}
-          style={{ position: "absolute", top: 10, right: 10, ...sans, fontSize: 10, color: "#c0504d", background: "#fff", border: "1px solid #e8c8c8", borderRadius: 6, padding: "3px 10px", cursor: "pointer", zIndex: 2 }}>
+          style={{ position: "absolute", top: 10, right: 10, ...sans, fontSize: 12, color: "#c0504d", background: "#fff", border: "1px solid #e8c8c8", borderRadius: 6, padding: "3px 10px", cursor: "pointer", zIndex: 2 }}>
           🗑 Delete
         </button>
       )}
@@ -1165,22 +1163,22 @@ function HomeView({ topics, onSelect, onNewTopic, onInvite, user, isAdmin, onDel
     <div style={{ maxWidth: 680, margin: "0 auto", padding: "36px 20px" }}>
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 28 }}>
         <div>
-          <h1 style={{ ...serif, fontSize: 28, color: C.text, margin: 0 }}>Truths</h1>
-          <p style={{ ...sans, fontSize: 13, color: C.textSub, marginTop: 4 }}>See where the world stands. Add your voice.</p>
+          <h1 style={{ ...serif, fontSize: 33, color: C.text, margin: 0 }}>Truths</h1>
+          <p style={{ ...sans, fontSize: 15, color: C.textSub, marginTop: 4 }}>See where the world stands. Add your voice.</p>
         </div>
         <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-          <button onClick={onInvite} style={{ ...sans, fontSize: 12, background: "#f0ebe3", color: C.textMid, padding: "9px 14px", borderRadius: 10, cursor: "pointer", border: "none" }}>Invite ↗</button>
-          <button onClick={() => user ? setShowForm(true) : onSignIn()} style={{ ...sans, fontSize: 12, background: C.text, color: "#fff", padding: "9px 18px", borderRadius: 10, cursor: "pointer", border: "none" }}>{user ? "+ New Truth" : "Sign in to post"}</button>
+          <button onClick={onInvite} style={{ ...sans, fontSize: 14, background: "#f0ebe3", color: C.textMid, padding: "9px 14px", borderRadius: 10, cursor: "pointer", border: "none" }}>Invite ↗</button>
+          <button onClick={() => user ? setShowForm(true) : onSignIn()} style={{ ...sans, fontSize: 14, background: C.text, color: "#fff", padding: "9px 18px", borderRadius: 10, cursor: "pointer", border: "none" }}>{user ? "+ New Truth" : "Sign in to post"}</button>
         </div>
       </div>
 
       <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search debates…"
-        style={{ ...sans, fontSize: 13, width: "100%", border: `1px solid ${C.border}`, borderRadius: 10, padding: "10px 14px", background: "#fff", outline: "none", marginBottom: 10, boxSizing: "border-box" }} />
+        style={{ ...sans, fontSize: 15, width: "100%", border: `1px solid ${C.border}`, borderRadius: 10, padding: "10px 14px", background: "#fff", outline: "none", marginBottom: 10, boxSizing: "border-box" }} />
 
       <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 8 }}>
         {CATEGORIES.map(c => (
           <button key={c} onClick={() => setCategory(c)}
-            style={{ ...sans, fontSize: 11, padding: "5px 12px", borderRadius: 20, border: "1px solid", cursor: "pointer", transition: "all 0.15s", background: category === c ? C.text : "#fff", color: category === c ? "#fff" : C.textSub, borderColor: category === c ? C.text : C.border }}>
+            style={{ ...sans, fontSize: 13, padding: "5px 12px", borderRadius: 20, border: "1px solid", cursor: "pointer", transition: "all 0.15s", background: category === c ? C.text : "#fff", color: category === c ? "#fff" : C.textSub, borderColor: category === c ? C.text : C.border }}>
             {c}
           </button>
         ))}
@@ -1189,21 +1187,21 @@ function HomeView({ topics, onSelect, onNewTopic, onInvite, user, isAdmin, onDel
       <div style={{ display: "flex", gap: 5, marginBottom: 20 }}>
         {[["trending","Trending"],["active","Most active"],["contested","Most contested"]].map(([v, l]) => (
           <button key={v} onClick={() => setSort(v)}
-            style={{ ...sans, fontSize: 11, padding: "4px 12px", borderRadius: 20, border: "1px solid", cursor: "pointer", background: sort === v ? "#fdf3e7" : "transparent", color: sort === v ? C.pro : C.textMuted, borderColor: sort === v ? C.pro : "transparent" }}>
+            style={{ ...sans, fontSize: 13, padding: "4px 12px", borderRadius: 20, border: "1px solid", cursor: "pointer", background: sort === v ? "#fdf3e7" : "transparent", color: sort === v ? C.pro : C.textMuted, borderColor: sort === v ? C.pro : "transparent" }}>
             {l}
           </button>
         ))}
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
-        {main.length === 0 && <p style={{ ...sans, fontSize: 13, color: C.textMuted, textAlign: "center", padding: "24px 0" }}>No debates match your filters.</p>}
+        {main.length === 0 && <p style={{ ...sans, fontSize: 15, color: C.textMuted, textAlign: "center", padding: "24px 0" }}>No debates match your filters.</p>}
         {main.map(t => <TopicCard key={t.id} topic={t} onClick={() => onSelect(t)} isAdmin={isAdmin} onDelete={onDelete} />)}
       </div>
 
       {forks.length > 0 && (
         <>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-            <span style={{ ...sans, fontSize: 10, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>⑃ Forks & sub-threads</span>
+            <span style={{ ...sans, fontSize: 12, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.1em" }}>⑃ Forks & sub-threads</span>
             <div style={{ flex: 1, height: 1, background: C.border }} />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -1212,7 +1210,7 @@ function HomeView({ topics, onSelect, onNewTopic, onInvite, user, isAdmin, onDel
         </>
       )}
 
-      <p style={{ ...serif, fontStyle: "italic", fontSize: 11, color: C.textMuted, textAlign: "center", marginTop: 48 }}>antilog · Civil discourse for everyone</p>
+      <p style={{ ...serif, fontStyle: "italic", fontSize: 13, color: C.textMuted, textAlign: "center", marginTop: 48 }}>antilog · Civil discourse for everyone</p>
       {showForm && <NewTopicModal onAdd={onNewTopic} onClose={() => setShowForm(false)} />}
     </div>
   );
@@ -1224,19 +1222,19 @@ function NavRepBar({ rep, onInvite }) {
   const pct = Math.min(100, (rep / tier.next) * 100);
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-      <button onClick={onInvite} style={{ ...sans, fontSize: 11, color: C.textSub, background: "none", border: `1px solid ${C.border}`, borderRadius: 8, padding: "4px 10px", cursor: "pointer" }}>Invite</button>
+      <button onClick={onInvite} style={{ ...sans, fontSize: 13, color: C.textSub, background: "none", border: `1px solid ${C.border}`, borderRadius: 8, padding: "4px 10px", cursor: "pointer" }}>Invite</button>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#e8e0d4", color: C.textSub, display: "flex", alignItems: "center", justifyContent: "center", ...sansMed, fontSize: 11 }}>{SESSION_USER.avatar}</div>
+        <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#e8e0d4", color: C.textSub, display: "flex", alignItems: "center", justifyContent: "center", ...sansMed, fontSize: 13 }}>{SESSION_USER.avatar}</div>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ ...sans, fontSize: 11, color: C.textMid }}>You</span>
-            <span style={{ ...sans, fontSize: 9, color: tier.color, background: tier.bg, padding: "1px 6px", borderRadius: 10 }}>{tier.label}</span>
+            <span style={{ ...sans, fontSize: 13, color: C.textMid }}>You</span>
+            <span style={{ ...sans, fontSize: 11, color: tier.color, background: tier.bg, padding: "1px 6px", borderRadius: 10 }}>{tier.label}</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
             <div style={{ width: 60, height: 3, background: "#ede8e1", borderRadius: 3, overflow: "hidden" }}>
               <div style={{ width: `${pct}%`, height: "100%", background: tier.color, borderRadius: 3, transition: "width 0.5s" }} />
             </div>
-            <span style={{ ...sans, fontSize: 9, color: C.textMuted }}>{rep}pts</span>
+            <span style={{ ...sans, fontSize: 11, color: C.textMuted }}>{rep}pts</span>
           </div>
         </div>
       </div>
@@ -1256,12 +1254,12 @@ function Nav({ sessionRep, onInvite, onHome, user }) {
         // Narrow: title left, controls right, single row
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <button onClick={onHome} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 1, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-            <span style={{ ...serif, fontSize: 28, color: C.text, lineHeight: 1.1 }}>antilog</span>
-            <span style={{ ...sans, fontSize: 10, color: C.textMuted, letterSpacing: "0.04em" }}>two sides to every truth</span>
+            <span style={{ ...serif, fontSize: 33, color: C.text, lineHeight: 1.1 }}>antilog</span>
+            <span style={{ ...sans, fontSize: 12, color: C.textMuted, letterSpacing: "0.04em" }}>two sides to every truth</span>
           </button>
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-            <button onClick={onInvite} style={{ ...sans, fontSize: 11, color: C.textSub, background: "none", border: `1px solid ${C.border}`, borderRadius: 8, padding: "4px 10px", cursor: "pointer" }}>Invite</button>
-            <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#e8e0d4", color: C.textSub, display: "flex", alignItems: "center", justifyContent: "center", ...sansMed, fontSize: 11 }}>{user ? (user.user_metadata?.full_name?.[0] ?? "U") : SESSION_USER.avatar}</div>
+            <button onClick={onInvite} style={{ ...sans, fontSize: 13, color: C.textSub, background: "none", border: `1px solid ${C.border}`, borderRadius: 8, padding: "4px 10px", cursor: "pointer" }}>Invite</button>
+            <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#e8e0d4", color: C.textSub, display: "flex", alignItems: "center", justifyContent: "center", ...sansMed, fontSize: 13 }}>{user ? (user.user_metadata?.full_name?.[0] ?? "U") : SESSION_USER.avatar}</div>
           </div>
         </div>
       ) : (
@@ -1269,24 +1267,24 @@ function Nav({ sessionRep, onInvite, onHome, user }) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ width: 140 }} />
           <button onClick={onHome} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-            <span style={{ ...serif, fontSize: 36, color: C.text, lineHeight: 1.1 }}>antilog</span>
-            <span style={{ ...sans, fontSize: 11, color: C.textMuted, letterSpacing: "0.04em" }}>two sides to every truth</span>
+            <span style={{ ...serif, fontSize: 42, color: C.text, lineHeight: 1.1 }}>antilog</span>
+            <span style={{ ...sans, fontSize: 13, color: C.textMuted, letterSpacing: "0.04em" }}>two sides to every truth</span>
           </button>
           <div style={{ width: 140, display: "flex", justifyContent: "flex-end" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <button onClick={onInvite} style={{ ...sans, fontSize: 11, color: C.textSub, background: "none", border: `1px solid ${C.border}`, borderRadius: 8, padding: "4px 10px", cursor: "pointer" }}>Invite</button>
+              <button onClick={onInvite} style={{ ...sans, fontSize: 13, color: C.textSub, background: "none", border: `1px solid ${C.border}`, borderRadius: 8, padding: "4px 10px", cursor: "pointer" }}>Invite</button>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#e8e0d4", color: C.textSub, display: "flex", alignItems: "center", justifyContent: "center", ...sansMed, fontSize: 11 }}>{user ? (user.user_metadata?.full_name?.[0] ?? "U") : SESSION_USER.avatar}</div>
+                <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#e8e0d4", color: C.textSub, display: "flex", alignItems: "center", justifyContent: "center", ...sansMed, fontSize: 13 }}>{user ? (user.user_metadata?.full_name?.[0] ?? "U") : SESSION_USER.avatar}</div>
                 <div>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ ...sans, fontSize: 11, color: C.textMid }}>{user ? (user.user_metadata?.full_name?.split(" ")[0] ?? "You") : "You"}</span>
-                    <span style={{ ...sans, fontSize: 9, color: tier.color, background: tier.bg, padding: "1px 6px", borderRadius: 10 }}>{tier.label}</span>
+                    <span style={{ ...sans, fontSize: 13, color: C.textMid }}>{user ? (user.user_metadata?.full_name?.split(" ")[0] ?? "You") : "You"}</span>
+                    <span style={{ ...sans, fontSize: 11, color: tier.color, background: tier.bg, padding: "1px 6px", borderRadius: 10 }}>{tier.label}</span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
                     <div style={{ width: 60, height: 3, background: "#ede8e1", borderRadius: 3, overflow: "hidden" }}>
                       <div style={{ width: `${pct}%`, height: "100%", background: tier.color, borderRadius: 3, transition: "width 0.5s" }} />
                     </div>
-                    <span style={{ ...sans, fontSize: 9, color: C.textMuted }}>{sessionRep}pts</span>
+                    <span style={{ ...sans, fontSize: 11, color: C.textMuted }}>{sessionRep}pts</span>
                   </div>
                 </div>
               </div>
@@ -1461,7 +1459,7 @@ export default function App() {
 
   if (loading) return (
     <div style={{ minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <p style={{ ...serif, fontSize: 18, color: C.textMuted }}>Loading…</p>
+      <p style={{ ...serif, fontSize: 21, color: C.textMuted }}>Loading…</p>
     </div>
   );
 
