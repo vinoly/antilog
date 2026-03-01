@@ -483,7 +483,7 @@ function FactCheckBadge({ text, source, argId, onResult }) {
       if (!argId) return;
       try {
         const c = await sbPromise;
-        const { data } = await c.from("fact_checks").select("verdict, note").eq("arg_id", String(argId)).single();
+        const { data } = await c.from("fact_checks").select("verdict, note").eq("arg_id", String(argId)).maybeSingle();
         if (data) { setResult(data); setState("done"); if (onResult) onResult(argId, data); }
       } catch {}
     }
