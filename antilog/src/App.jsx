@@ -696,7 +696,7 @@ function ArgCard({ arg, side, rebuttals, cardRef, onFork, onShare, onOpenProfile
       <FactCheckBadge text={arg.text} source={arg.source} />
 
       <div style={{ display: "flex", gap: 10, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
-        <VoteBtn votes={arg.votes} onVote={d => onRep(arg.author, d * 10)} />
+        <VoteBtn votes={arg.votes} onVote={d => onRep(arg.author, d * 10, arg.id, "argument")} />
         <button onClick={() => { if (!user) { onSignIn(); return; } setShowReplyForm(v => !v); setShowRebuttalForm(false); }}
           style={{ ...sans, fontSize: 13, color: C.textMuted, background: "none", border: "none", cursor: "pointer" }}>Reply</button>
         <button onClick={() => { if (!user) { onSignIn(); return; } setShowRebuttalForm(v => !v); setShowReplyForm(false); }}
