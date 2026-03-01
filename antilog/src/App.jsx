@@ -718,7 +718,7 @@ const submitReply = () => {
         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 4 }}>
           <button onClick={() => { if (window.confirm("Delete this argument and all its replies?")) onDelete("argument", arg.id); }}
             style={{ ...sans, fontSize: 12, color: "#c0504d", background: "none", border: "1px solid #e8c8c8", borderRadius: 6, padding: "2px 10px", cursor: "pointer" }}>
-            🗑 Delete
+            🗑
           </button>
         </div>
       )}
@@ -1144,7 +1144,7 @@ function TopicCard({ topic, onClick, isAdmin, onDelete }) {
         <button
           onClick={e => { e.stopPropagation(); if (window.confirm("Delete this truth and all its arguments?")) onDelete("topic", topic.id); }}
           style={{ position: "absolute", top: 10, right: 10, ...sans, fontSize: 12, color: "#c0504d", background: "#fff", border: "1px solid #e8c8c8", borderRadius: 6, padding: "3px 10px", cursor: "pointer", zIndex: 2 }}>
-          🗑 Delete
+          🗑
         </button>
       )}
     </div>
