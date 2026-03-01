@@ -7,8 +7,6 @@ const sbPromise = Promise.resolve(createClient(SUPABASE_URL, SUPABASE_ANON_KEY))
 const sb = {
   auth: async () => (await sbPromise).auth,
 };
-
-
 const fontLink = document.createElement("link");
 fontLink.rel = "stylesheet";
 fontLink.href = "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap";
@@ -1321,9 +1319,10 @@ export default function App() {
       try {
         const c = await sbPromise;
         if (!c) return; // no Supabase — keep seed data
+        // Fetch topics, all arguments (including replies), and rebuttals separately
         const { data, error } = await c
           .from("topics")
-          .select("*, arguments(*, replies:arguments!parent_id(*)), rebuttals(*)")
+          .select("*, arguments(*), rebuttals(*)")
           .order("created_at", { ascending: false });
         if (error) { console.warn('Supabase query error:', error.message); return; }
 
@@ -1346,17 +1345,17 @@ export default function App() {
                 .filter(a => a.side === "pro" && !a.parent_id)
                 .map(a => ({
                   id: a.id, author: a.author_name, votes: a.votes, text: a.text, source: a.source,
-                  replies: (a.replies || []).map(r => ({
-                    id: r.id, author: r.author_name, votes: r.votes, text: r.text, source: r.source,
-                  })),
+                  replies: (t.arguments || [])
+                    .filter(r => r.parent_id === a.id)
+                    .map(r => ({ id: r.id, author: r.author_name, votes: r.votes, text: r.text, source: r.source })),
                 })),
               con: (t.arguments || [])
                 .filter(a => a.side === "con" && !a.parent_id)
                 .map(a => ({
                   id: a.id, author: a.author_name, votes: a.votes, text: a.text, source: a.source,
-                  replies: (a.replies || []).map(r => ({
-                    id: r.id, author: r.author_name, votes: r.votes, text: r.text, source: r.source,
-                  })),
+                  replies: (t.arguments || [])
+                    .filter(r => r.parent_id === a.id)
+                    .map(r => ({ id: r.id, author: r.author_name, votes: r.votes, text: r.text, source: r.source })),
                 })),
             },
           }));
