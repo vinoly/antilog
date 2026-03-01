@@ -297,8 +297,8 @@ function InviteModal({ onClose, user }) {
   const [sent, setSent] = useState(false);
   const [copied, setCopied] = useState(false);
   const [signingIn, setSigningIn] = useState(false);
-  const link = "https://antilog.app/join?ref=" + (user?.id ?? "guest");
-
+const link = "https://antilog.peoplebones.com?ref=" + (user?.id ?? "guest");
+  
   const handleInvite = () => {
     if (!email.trim()) return;
     setSent(true);
