@@ -501,10 +501,36 @@ function RepBadge({ author, onOpenProfile }) {
 }
 
 // ── Fact check badge (was "AI check") ─────────────────────────────────────
-function FactCheckBadge({ text, source }) {
+function FactCheckBadge({ text, source, argId, onResult }) {
   const [state, setState] = useState("idle");
   const [result, setResult] = useState(null);
-  const run = async () => { setState("loading"); const r = await runFactCheck(text, source); setResult(r); setState("done"); };
+
+  useEffect(() => {
+    async function loadExisting() {
+      if (!argId) return;
+      try {
+        const c = await sbPromise;
+        const { data } = await c.from("fact_checks").select("verdict, note").eq("arg_id", String(argId)).single();
+        if (data) { setResult(data); setState("done"); if (onResult) onResult(argId, data); }
+      } catch {}
+    }
+    loadExisting();
+  }, [argId]);
+
+  const run = async () => {
+    setState("loading");
+    const r = await runFactCheck(text, source);
+    setResult(r);
+    setState("done");
+    if (onResult && argId) onResult(argId, r);
+    try {
+      const c = await sbPromise;
+      await c.from("fact_checks").upsert({ arg_id: String(argId), verdict: r.verdict, note: r.note }, { onConflict: "arg_id" });
+    } catch (err) {
+      console.warn("Failed to save fact check:", err.message);
+    }
+  };
+
   if (state === "idle") return (
     <button onClick={run} style={{ ...sans, fontSize: 12, color: C.textSub, background: "none", border: `1px dashed ${C.border}`, borderRadius: 8, padding: "2px 8px", cursor: "pointer" }}>
       Fact check
