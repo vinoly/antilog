@@ -1214,7 +1214,7 @@ function Nav({ sessionRep, onInvite, onHome, user }) {
     <nav ref={ref} style={{ background: "#faf8f5", borderBottom: `1px solid ${C.border}`, padding: "14px 20px", position: "sticky", top: 0, zIndex: 40 }}>
       {mobile ? (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <button onClick={onHome} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 1, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+          <button onClick={onHome} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
             <span style={{ ...serif, fontSize: 33, color: C.text, lineHeight: 1.1 }}>antilog</span>
             <span style={{ ...sans, fontSize: 12, color: C.textMuted, letterSpacing: "0.04em" }}>two sides to every truth</span>
           </button>
@@ -1228,7 +1228,7 @@ function Nav({ sessionRep, onInvite, onHome, user }) {
       ) : (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ width: 140 }} />
-          <button onClick={onHome} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+          <button onClick={onHome} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
             <span style={{ ...serif, fontSize: 42, color: C.text, lineHeight: 1.1 }}>antilog</span>
             <span style={{ ...sans, fontSize: 13, color: C.textMuted, letterSpacing: "0.04em" }}>two sides to every truth</span>
           </button>
